@@ -1,4 +1,5 @@
-﻿using Personal_Blog_Project.Models;
+﻿using Blog_Project.ViewModels;
+using Personal_Blog_Project.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace Blog_Project.Data.Repository
 {
-    public interface IRepository
+    public interface IPostRepository
     {
         Post GetPost(int id);
-        List<Post> GetAllPosts();
+        Task<IEnumerable<Post>> GetAllPosts();
         void AddPost();
         void UpdatePost();
         void RemovePost();
-        void AddSubComment(SubComment comment);
     }
 }

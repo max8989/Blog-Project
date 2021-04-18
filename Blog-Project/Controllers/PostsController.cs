@@ -7,22 +7,38 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Blog_Project.Data;
 using Personal_Blog_Project.Models;
+using Microsoft.AspNetCore.Authorization;
+using Blog_Project.ViewModels;
+using Blog_Project.Data.Repository;
 
 namespace Blog_Project.Controllers
 {
     public class PostsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IPostRepository _postRepository;
 
-        public PostsController(ApplicationDbContext context)
+        public PostsController(ApplicationDbContext context, IPostRepository postRepository)
         {
             _context = context;
+            _postRepository = postRepository;
         }
 
         // GET: Posts
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Posts.Include(p => p.Category);
+            //var postViewModel = new PostViewModel
+            //{
+            //    Posts = await _postRepository.GetAllPosts()
+            //};
+            //return View(postViewModel);
+
+
+            var applicationDbContext = _context.Posts
+                .Include(c => c.Category)
+                .Include(cc => cc.mainComments)
+                .ThenInclude(ccc => ccc.SubComments);
+
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -45,6 +61,7 @@ namespace Blog_Project.Controllers
             return View(post);
         }
 
+        [Authorize]
         // GET: Posts/Create
         public IActionResult Create()
         {
@@ -69,6 +86,7 @@ namespace Blog_Project.Controllers
             return View(post);
         }
 
+        [Authorize]
         // GET: Posts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -122,6 +140,7 @@ namespace Blog_Project.Controllers
             return View(post);
         }
 
+        [Authorize]
         // GET: Posts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

@@ -62,9 +62,13 @@ namespace Blog_Project
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
             });
             
-
+            // Email Services for Confirmation
             services.AddTransient<IEmailSender, EmailSender>();
+
+            // Dependency Injection For Repository
             services.AddTransient<IDateTimeNow, DateTimeNow>();
+            services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<ICommentRepository, CommentRepository>();
 
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
