@@ -36,6 +36,7 @@ namespace Blog_Project.Controllers
 
             var applicationDbContext = _context.Posts
                 .Include(c => c.Category)
+                .Include(l => l.Likes)
                 .Include(cc => cc.mainComments)
                 .ThenInclude(ccc => ccc.SubComments);
 
@@ -51,8 +52,13 @@ namespace Blog_Project.Controllers
             }
 
             var post = await _context.Posts
+                .Include(p => p.mainComments)
+                .ThenInclude(p=> p.SubComments)
+                .Include(p => p.Likes)
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
+            
             if (post == null)
             {
                 return NotFound();

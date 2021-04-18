@@ -5,49 +5,81 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<h1>@Model.Title</h1>
+<h5>@Model.Category.CategoryName</h5>
 
 <div>
-    <h4>Post</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Body)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Body)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Image)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Category.CategoryId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateCreated)
-        </dd>
-    </dl>
+    <div>
+
+        <h5>
+            Par: Justin Belanger
+        </h5>
+        <div>
+            @Model.DateCreated.ToShortDateString()
+        </div>
+
+        <hr />
+        <div>
+            @Model.Body
+        </div>
+
+        <hr />
+        <div class="Post-Stats">
+            <div class="Post-Stat">
+                Views:
+            </div>
+            <div class="Post-Stat">
+                Likes: @Model.Likes.Count()
+            </div>
+            <div class="Post-Stat">
+                Comments: @Model.mainComments.Count()
+            </div>
+            <input type="button" value="Reply" />
+            <input type="button" value="Like" />
+        </div>
+
+        <hr />
+        @foreach (var comment in Model.mainComments)
+        {
+            <div class="Comment" style="margin-left: 4em;margin-bottom: 2em;">
+                <h6 class="Post-Comment-User">
+                    Par: Justin Belanger
+                </h6>
+
+                <div>
+                    @comment.DateCreated.ToShortDateString()
+                </div>
+
+                <div>
+                    @comment.Message
+                </div>
+
+                <input type="button" value="Reply"/>
+            </div>
+
+            @foreach (var subComment in comment.SubComments)
+            {
+                <div class="Comment" style="margin-left: 8em;margin-bottom: 2em;">
+                    <h6 class="Post-Comment-User">
+                        Par: Justin Belanger
+                    </h6>
+
+                    <div>
+                        @subComment.DateCreated.ToShortDateString()
+                    </div>
+
+                    <div>
+                        @subComment.Message
+                    </div>
+                </div>
+            }
+        }
+
+
+        <hr />
+
+    </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
