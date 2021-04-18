@@ -4,17 +4,22 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-@{ 
-    var fullName = UserManager.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).FirstName;
-    fullName += " ";
-    fullName += UserManager.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).LastName; 
-}
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+    var fullName = "";
+    if (User.Identity.IsAuthenticated)
+    {
+        fullName = UserManager.Users.FirstOrDefault(u => u.UserName == User.Identity.Name)?.FirstName;
+        fullName += " ";
+        fullName += UserManager.Users.FirstOrDefault(u => u.UserName == User.Identity.Name)?.LastName;
+    }
+
+
+
     <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @fullName!</a>
+        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @fullName</a>
     </li>
     <li class="nav-item">
         <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
