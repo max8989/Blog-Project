@@ -22,7 +22,8 @@ namespace Blog_Project.Controllers
         // GET: Posts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Post.ToListAsync());
+            var applicationDbContext = _context.Posts.Include(p => p.Category);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Posts/Details/5
@@ -33,7 +34,8 @@ namespace Blog_Project.Controllers
                 return NotFound();
             }
 
-            var post = await _context.Post
+            var post = await _context.Posts
+                .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (post == null)
             {
@@ -46,6 +48,7 @@ namespace Blog_Project.Controllers
         // GET: Posts/Create
         public IActionResult Create()
         {
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId");
             return View();
         }
 
@@ -54,7 +57,7 @@ namespace Blog_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Body,Image,Description,Category,DateCreated")] Post post)
+        public async Task<IActionResult> Create([Bind("Id,Title,Body,Image,Description,CategoryId,DateCreated")] Post post)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +65,7 @@ namespace Blog_Project.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", post.CategoryId);
             return View(post);
         }
 
@@ -73,11 +77,12 @@ namespace Blog_Project.Controllers
                 return NotFound();
             }
 
-            var post = await _context.Post.FindAsync(id);
+            var post = await _context.Posts.FindAsync(id);
             if (post == null)
             {
                 return NotFound();
             }
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", post.CategoryId);
             return View(post);
         }
 
@@ -86,7 +91,7 @@ namespace Blog_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Body,Image,Description,Category,DateCreated")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Body,Image,Description,CategoryId,DateCreated")] Post post)
         {
             if (id != post.Id)
             {
@@ -113,6 +118,7 @@ namespace Blog_Project.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", post.CategoryId);
             return View(post);
         }
 
@@ -124,7 +130,8 @@ namespace Blog_Project.Controllers
                 return NotFound();
             }
 
-            var post = await _context.Post
+            var post = await _context.Posts
+                .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (post == null)
             {
@@ -139,15 +146,15 @@ namespace Blog_Project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var post = await _context.Post.FindAsync(id);
-            _context.Post.Remove(post);
+            var post = await _context.Posts.FindAsync(id);
+            _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PostExists(int id)
         {
-            return _context.Post.Any(e => e.Id == id);
+            return _context.Posts.Any(e => e.Id == id);
         }
     }
 }

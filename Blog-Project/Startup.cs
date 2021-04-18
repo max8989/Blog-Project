@@ -1,4 +1,5 @@
 using Blog_Project.Data;
+using Blog_Project.Data.Repository;
 using Blog_Project.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -63,6 +64,7 @@ namespace Blog_Project
             
 
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IDateTimeNow, DateTimeNow>();
 
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();

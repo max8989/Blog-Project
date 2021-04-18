@@ -13,7 +13,9 @@ namespace Personal_Blog_Project.Models
         public string Body { get; set; }
         public string? Image { get; set; }
         public string Description { get; set; }
-        public string Category { get; set; }
+        
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
         public List<Like> Likes { get; set; }
 
         public DateTime DateCreated { get; set; }

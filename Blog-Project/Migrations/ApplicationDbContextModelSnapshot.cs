@@ -220,6 +220,37 @@ namespace Blog_Project.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Personal_Blog_Project.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "DotNet Core"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "BlockChain"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "La Cite"
+                        });
+                });
+
             modelBuilder.Entity("Personal_Blog_Project.Models.Like", b =>
                 {
                     b.Property<int>("Id")
@@ -229,11 +260,16 @@ namespace Blog_Project.Migrations
                     b.Property<int?>("PostId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Like");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("Personal_Blog_Project.Models.MainComment", b =>
@@ -248,14 +284,37 @@ namespace Blog_Project.Migrations
                     b.Property<string>("Message")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("PostId")
+                    b.Property<int>("PostId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("MainComment");
+                    b.ToTable("MainComments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateCreated = new DateTime(2021, 4, 17, 23, 56, 27, 264, DateTimeKind.Local).AddTicks(904),
+                            Message = "Super bon Post!!!",
+                            PostId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateCreated = new DateTime(2021, 4, 17, 23, 56, 27, 267, DateTimeKind.Local).AddTicks(1595),
+                            Message = "Cest mauvais",
+                            PostId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DateCreated = new DateTime(2021, 4, 17, 23, 56, 27, 267, DateTimeKind.Local).AddTicks(1699),
+                            Message = "Cest le meilleur de toute ma vie!!!!!",
+                            PostId = 2
+                        });
                 });
 
             modelBuilder.Entity("Personal_Blog_Project.Models.Post", b =>
@@ -267,8 +326,8 @@ namespace Blog_Project.Migrations
                     b.Property<string>("Body")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Category")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("TEXT");
@@ -284,7 +343,29 @@ namespace Blog_Project.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Post");
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Posts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Body = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',",
+                            CategoryId = 1,
+                            DateCreated = new DateTime(2021, 4, 17, 23, 56, 27, 267, DateTimeKind.Local).AddTicks(7014),
+                            Description = "Description 1",
+                            Title = "Le rechaufement planetaire"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Body = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',",
+                            CategoryId = 2,
+                            DateCreated = new DateTime(2021, 4, 17, 23, 56, 27, 267, DateTimeKind.Local).AddTicks(8503),
+                            Description = "Description 2",
+                            Title = "Le Covid 19"
+                        });
                 });
 
             modelBuilder.Entity("Personal_Blog_Project.Models.SubComment", b =>
@@ -306,7 +387,23 @@ namespace Blog_Project.Migrations
 
                     b.HasIndex("MainCommentId");
 
-                    b.ToTable("SubComment");
+                    b.ToTable("SubComments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateCreated = new DateTime(2021, 4, 17, 23, 56, 27, 267, DateTimeKind.Local).AddTicks(3169),
+                            MainCommentId = 1,
+                            Message = "Non je ne penses pas..."
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateCreated = new DateTime(2021, 4, 17, 23, 56, 27, 267, DateTimeKind.Local).AddTicks(3467),
+                            MainCommentId = 3,
+                            Message = "Oui 100% daccord"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -366,14 +463,35 @@ namespace Blog_Project.Migrations
                         .WithMany("Likes")
                         .HasForeignKey("PostId");
 
+                    b.HasOne("Blog_Project.Data.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Post");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Personal_Blog_Project.Models.MainComment", b =>
                 {
-                    b.HasOne("Personal_Blog_Project.Models.Post", null)
+                    b.HasOne("Personal_Blog_Project.Models.Post", "Post")
                         .WithMany("mainComments")
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("Personal_Blog_Project.Models.Post", b =>
+                {
+                    b.HasOne("Personal_Blog_Project.Models.Category", "Category")
+                        .WithMany("Posts")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Personal_Blog_Project.Models.SubComment", b =>
@@ -383,6 +501,11 @@ namespace Blog_Project.Migrations
                         .HasForeignKey("MainCommentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Personal_Blog_Project.Models.Category", b =>
+                {
+                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("Personal_Blog_Project.Models.MainComment", b =>
