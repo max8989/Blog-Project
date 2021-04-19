@@ -17,7 +17,7 @@ namespace Blog_Project.Data.Repository
             _applicationDbContext = applicationDbContext;
         }
 
-        public void AddPost()
+        public Post AddPost()
         {
             throw new NotImplementedException();
         }
@@ -34,15 +34,23 @@ namespace Blog_Project.Data.Repository
 
         public Post GetPost(int id)
         {
-            throw new NotImplementedException();
+            var result = _applicationDbContext.Posts
+                .Include(c => c.Id)
+                .Include(c => c.Category)
+                .Include(cc => cc.mainComments)
+                .ThenInclude(ccc => ccc.SubComments)
+                .Where(c => c.Id == id);
+            return (Post)result;
         }
 
-        public void RemovePost()
+        public void RemovePost(int id)
         {
-            throw new NotImplementedException();
+            var result = _applicationDbContext.Posts
+            .Include(c => c.Id).Where(c => c.Id == id);
+            _applicationDbContext.Remove(result);
         }
 
-        public void UpdatePost()
+        public Post UpdatePost(int id)
         {
             throw new NotImplementedException();
         }
