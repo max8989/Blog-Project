@@ -73,3 +73,12 @@ body {
 .Comment{
     margin-left: 4em;
 }
+
+div.fixed {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 10em;
+    height: 10em;
+    border: 3px solid black;
+}
