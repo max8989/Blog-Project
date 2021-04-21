@@ -12,8 +12,8 @@ namespace Blog_Project.Data.Repository
     {
         Post GetPost(int id);
         Task<IEnumerable<Post>> GetAllPosts();
-        void AddPost();
-        void UpdatePost();
-        void RemovePost();
+        Post AddPost();
+        Post UpdatePost(int id);
+        void RemovePost(int id);
     }
 }

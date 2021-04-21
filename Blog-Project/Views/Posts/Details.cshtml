@@ -11,75 +11,73 @@
 <div>
     <hr />
     <div>
+        <div class="card">
+            <div class="card-body">
+                <h5>
+                    Par: Justin Belanger
+                </h5>
+                <div>
+                    <small class="text-muted">@Model.DateCreated.ToShortDateString()</small>
+                </div>
 
-        <h5>
-            Par: Justin Belanger
-        </h5>
-        <div>
-            @Model.DateCreated.ToShortDateString()
+                <div>
+                    @Model.Body
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+                <div class="Post-Stat">
+                    Views:
+                </div>
+                <div class="Post-Stat">
+                    Likes: @Model.Likes.Count()
+                </div>
+                <div class="Post-Stat">
+                    Comments: @Model.mainComments.Count()
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" >Reply</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Like</button>
+                </div>
+            </div>
         </div>
 
-        <hr />
-        <div>
-            @Model.Body
-        </div>
-
-        <hr />
-        <div class="Post-Stats">
-            <div class="Post-Stat">
-                Views:
-            </div>
-            <div class="Post-Stat">
-                Likes: @Model.Likes.Count()
-            </div>
-            <div class="Post-Stat">
-                Comments: @Model.mainComments.Count()
-            </div>
-            <input type="button" value="Reply" />
-            <input type="button" value="Like" />
-        </div>
 
         <hr />
         @foreach (var comment in Model.mainComments)
         {
             <div class="Comment" style="margin-left: 4em;margin-bottom: 2em;">
-                <h6 class="Post-Comment-User">
-                    Par: Justin Belanger
-                </h6>
-
-                <div>
-                    @comment.DateCreated.ToShortDateString()
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"> Par: Justin Belanger</h5>
+                        <p class="card-text">@comment.Message</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <small class="text-muted">@comment.DateCreated.ToShortDateString()</small>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Reply</button>
+                        </div>
+                    </div>
                 </div>
-
-                <div>
-                    @comment.Message
-                </div>
-
-                <input type="button" value="Reply"/>
             </div>
 
             @foreach (var subComment in comment.SubComments)
             {
                 <div class="Comment" style="margin-left: 8em;margin-bottom: 2em;">
-                    <h6 class="Post-Comment-User">
-                        Par: Justin Belanger
-                    </h6>
-
-                    <div>
-                        @subComment.DateCreated.ToShortDateString()
-                    </div>
-
-                    <div>
-                        @subComment.Message
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"> Par: Justin Belanger</h5>
+                            <p class="card-text">@subComment.Message</p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between align-items-center">
+                            <small class="text-muted">@subComment.DateCreated.ToShortDateString()</small>
+                        </div>
                     </div>
                 </div>
             }
         }
-
-
         <hr />
-
     </div>
+    
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |

@@ -22,5 +22,6 @@ namespace Blog_Project
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
     }
 }
