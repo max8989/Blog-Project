@@ -1,32 +1,61 @@
-﻿@model Personal_Blog_Project.Models.Post
+﻿@model PostViewModel
 
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="~/lib/ckeditor/ckeditor.js"></script>
+<link href="~/lib/ckeditor/contents.css" rel="stylesheet" />
 <h1>Create</h1>
 
 <h4>Post</h4>
 <hr />
+
+
+
+
+@*<div>
+    <form asp-controller="Panel" asp-action="Edit" method="post" enctype="multipart/form-data">
+        <input asp-for="Id" type="hidden" />
+        <div>
+            <label>Title</label>
+            <input asp-for="Title" />
+        </div>
+        <div>
+            <label>Description</label>
+            <input asp-for="Description" />
+        </div>
+        <div>
+            <label>Category</label>
+            <select asp-for="Category">
+                <option value="Travel">Travel</option>
+                <option value="Programing">Programing</option>
+                <option value="Photography">Photography</option>
+            </select>
+        </div>
+        <div>
+            <label>Body</label>
+            <textarea id="editor" asp-for="Body"></textarea>
+        </div>
+        <div>
+            <label>Image</label>
+            <input asp-for="Image" type="hidden" />
+            <input asp-for="Image" />
+        </div>
+        <input type="submit" value="Submit" />
+    </form>
+</div>*@
+
+
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form asp-action="Create">
+            <input asp-for="Id" type="hidden" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Body" class="control-label"></label>
-                <input asp-for="Body" class="form-control" />
-                <span asp-validation-for="Body" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
@@ -35,13 +64,27 @@
             </div>
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.CategoryId"></select>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DateCreated" class="control-label"></label>
-                <input asp-for="DateCreated" class="form-control" />
-                <span asp-validation-for="DateCreated" class="text-danger"></span>
+                <label asp-for="Body" class="control-label"></label>
+                @*<input asp-for="Body" class="form-control" />*@
+                <textarea asp-for="Body" id="editor" placeholder="Enter Text Here"></textarea>
+                <span asp-validation-for="Body" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+
+
+            @*<div class="form-group">
+            <label asp-for="DateCreated" class="control-label"></label>
+            <input asp-for="DateCreated" class="form-control" />
+            <span asp-validation-for="DateCreated" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -55,4 +98,11 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+    CKEDITOR.replace('editor', {
+        height: 220
+    });
+</script>
+    
 }

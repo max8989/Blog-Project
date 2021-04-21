@@ -71,8 +71,10 @@ namespace Blog_Project.Controllers
         // GET: Posts/Create
         public IActionResult Create()
         {
+            var postViewModel = new PostViewModel();
+
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId");
-            return View();
+            return View(postViewModel);
         }
 
         // POST: Posts/Create
@@ -80,17 +82,43 @@ namespace Blog_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Body,Image,Description,CategoryId,DateCreated")] Post post)
+        public async Task<IActionResult> Create(PostViewModel postViewModel)
         {
             if (ModelState.IsValid)
             {
+                var post = new Post
+                {
+                    Title = postViewModel.Title,
+                    Description = postViewModel.Description,
+                    Body = postViewModel.Body,
+                    Image = postViewModel.Image,
+                    DateCreated = DateTime.Now,
+                    CategoryId = postViewModel.CategoryId
+                };
+
                 _context.Add(post);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", post.CategoryId);
-            return View(post);
+            //ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", post.CategoryId);
+            return View(postViewModel);
         }
+
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,Title,Body,Image,Description,CategoryId,DateCreated")] Post post)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(post);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", post.CategoryId);
+        //    return View(post);
+        //}
 
         [Authorize]
         // GET: Posts/Edit/5
