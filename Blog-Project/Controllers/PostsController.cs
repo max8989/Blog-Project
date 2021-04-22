@@ -101,6 +101,27 @@ namespace Blog_Project.Controllers
 
             if(post != null)
             {
+                List<CommentViewModel> comments = new List<CommentViewModel>();
+                foreach (var comment in post.mainComments)
+                {
+                    var firstName = _context.Users.Find(comment.UserId)?.FirstName;
+                    var lastName = _context.Users.Find(comment.UserId)?.LastName;
+                    var commentViewModel = new CommentViewModel
+                    {
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Id = comment.Id,
+                        Message = comment.Message,
+                        UserId = comment.UserId,
+                        DateCreated = comment.DateCreated,
+                        PostId = comment.PostId,
+                        Post = comment.Post,
+                        SubComments = comment.SubComments
+                    };
+
+                    comments.Add(commentViewModel);
+                }
+
                 postViewModel = new PostViewModel
                 {
                     Id = post.Id,
@@ -112,7 +133,7 @@ namespace Blog_Project.Controllers
                     Category = post.Category,
                     DateCreated = post.DateCreated,
                     Likes = post.Likes,
-                    mainComments = post.mainComments
+                    mainComments = comments
                 };
             }
             if (post.UserId != null)
@@ -337,8 +358,7 @@ namespace Blog_Project.Controllers
                 _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return (Json(comment));
-            //return RedirectToAction("Details", postId);
+            return RedirectToAction("Details", postId);
         }
 
         //public async Task<Comment[]> GetAllCommentAsync(bool includeMainComments = false)
