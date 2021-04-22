@@ -12,6 +12,7 @@ using Blog_Project.ViewModels;
 using Blog_Project.Data.Repository;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 
 namespace Blog_Project.Controllers
 {
@@ -19,11 +20,14 @@ namespace Blog_Project.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IPostRepository _postRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public PostsController(ApplicationDbContext context, IPostRepository postRepository)
+        public PostsController(ApplicationDbContext context, IPostRepository postRepository, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _postRepository = postRepository;
+            _userManager = userManager;
+
         }
 
         // GET: Posts
@@ -71,11 +75,12 @@ namespace Blog_Project.Controllers
 
         [Authorize]
         // GET: Posts/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             var postViewModel = new PostViewModel();
             postViewModel.Categories = new SelectList(_context.Categories, "CategoryId", "CategoryName");
-            //ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
+            postViewModel.UserId = currentUser.Id;
             return View(postViewModel);
         }
 
@@ -84,28 +89,34 @@ namespace Blog_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(PostViewModel postViewModel, IFormFile formFile)
+        public async Task<IActionResult> Create(PostViewModel postViewModel, IFormFile? formFile)
         {
             if (ModelState.IsValid)
             {
-                // Save img in Base64 format
-                byte[] bytes;
-                using (var memoryStream = new MemoryStream())
-                {
-                    formFile.CopyTo(memoryStream);
-                    bytes = memoryStream.ToArray();
-                }
 
-                string base64Img = Convert.ToBase64String(bytes);
+                if(formFile != null)
+                {
+                    // Save img in Base64 format
+                    byte[] bytes;
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        formFile.CopyTo(memoryStream);
+                        bytes = memoryStream.ToArray();
+                    }
+
+                    string base64Img = Convert.ToBase64String(bytes);
+                    postViewModel.Image = base64Img;
+                }
+               
 
                 var post = new Post
                 {
                     Title = postViewModel.Title,
                     Description = postViewModel.Description,
                     Body = postViewModel.Body,
-                    Image = base64Img,
                     DateCreated = DateTime.Now,
-                    CategoryId = postViewModel.CategoryId
+                    CategoryId = postViewModel.CategoryId,
+                    UserId = postViewModel.UserId
                 };
 
                 _context.Add(post);

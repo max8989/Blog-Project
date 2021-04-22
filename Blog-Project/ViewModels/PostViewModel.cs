@@ -25,6 +25,8 @@ namespace Blog_Project.ViewModels
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
+        public string UserId { get; set; }
+
         public IEnumerable<SelectListItem> Categories { get; set; }
         //public List<Like> Likes { get; set; }
 
