@@ -313,6 +313,21 @@ namespace Blog_Project.Controllers
                 postId = postId,
                 commentBody = commentBody
             };
+
+            if (ModelState.IsValid)
+            {
+                var Newcomment = new MainComment
+                {
+                    Message = commentBody,
+                    UserId = _userManager.GetUserId(HttpContext.User),
+                    DateCreated = DateTime.Now,
+                    PostId = postId
+                };
+
+                _context.Add(Newcomment);
+                _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
             return (Json(comment));
             //return RedirectToAction("Details", postId);
         }
