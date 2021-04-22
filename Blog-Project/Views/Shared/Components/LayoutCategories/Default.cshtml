@@ -3,5 +3,7 @@
 
 @foreach (var category in Model)
 {
-    <a class="p-2 link-secondary" href="#">@category.CategoryName</a>
+    <input type="hidden" name="categoryId" value="@category.CategoryId"/>
+    <a class="p-2 link-secondary" href='@Url.Action( "Index","Home", new {  categoryId = category.CategoryId })'>@category.CategoryName</a>
+
 }

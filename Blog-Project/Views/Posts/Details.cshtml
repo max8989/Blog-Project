@@ -97,10 +97,13 @@
         <div class="card-body">
             <form>
                 <div class="form-group">
-                    <textarea class="form-control" rows="3"></textarea>
-                </div>
-                <button onclick="location.href='@Url.Action( "Details","Home", new { postId = 1, commentBody = "" })'"
-                        type="submit" class="btn btn-primary" style="margin-top:1em">Submit</button>
+            <textarea class="form-control" rows="3" id="TextArea"  ></textarea>
+        </div>
+
+        <button onclick="location.href='@Url.Action("addComment", "Posts", new { postId = Model.Id, commentBody =  })'"
+                type="button" class="btn btn-primary" style="margin-top:1em">
+            Submit
+        </button>
             </form>
         </div>
     </div>

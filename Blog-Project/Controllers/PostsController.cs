@@ -48,13 +48,15 @@ namespace Blog_Project.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             //if admin show all posts
             // else show for current User
             var applicationDbContext = _context.Posts
                 .Include(c => c.Category)
                 .Include(l => l.Likes)
                 .Include(cc => cc.mainComments)
-                .ThenInclude(ccc => ccc.SubComments);
+                .ThenInclude(ccc => ccc.SubComments)
+                .Where(u => u.UserId == currentUser.Id);
 
             return View(await applicationDbContext.ToListAsync());
         }
@@ -101,6 +103,7 @@ namespace Blog_Project.Controllers
             {
                 postViewModel = new PostViewModel
                 {
+                    Id = post.Id,
                     Title = post.Title,
                     Description = post.Description,
                     Body = post.Body,
@@ -314,7 +317,13 @@ namespace Blog_Project.Controllers
         [Authorize]
         public IActionResult addComment(int postId, string commentBody)
         {
-            return RedirectToAction("Details", postId);
+            var comment = new
+            {
+                postId = postId,
+                commentBody = commentBody
+            };
+            return (Json(comment));
+            //return RedirectToAction("Details", postId);
         }
 
         //public async Task<Comment[]> GetAllCommentAsync(bool includeMainComments = false)
