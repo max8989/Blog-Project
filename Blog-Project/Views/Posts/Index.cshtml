@@ -5,7 +5,138 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!doctype html>
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    @@media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+</style>
+
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">My Personal Blog</h1>
+            <p class="lead text-muted">
+                Something short and leading about the collection below—its contents,
+                the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.
+            </p>
+            <p>
+                <a asp-action="Create" class="btn btn-primary my-2">POST</a>
+                @*<a href="#" class="btn btn-secondary my-2">Secondary action</a>*@
+            </p>
+        </div>
+    </div>
+</section>
+
+<div class="album py-5 bg-light">
+    <div class="container">
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            @foreach (var item in Model)
+            {
+                <div class="col">
+                    <div class="card shadow-sm">
+                        @if (item.Image == null)
+                        {
+                            <img src="~/img/LaCite.jpg" height="225" />
+                        }
+                        else
+                        {
+                            <img src="data:image/jpeg;base64,@item.Image" height="225" />
+                        }
+                        <div class="card-body">
+                            <p class="card-title">@Html.DisplayFor(modelItem => item.Title)</p>
+                            <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                            onclick="location.href='@Url.Action( "Details", new {  id = item.Id })'">
+                                        View
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                            onclick="location.href='@Url.Action( "Edit", new {  id = item.Id })'">
+                                        Edit
+                                    </button>
+                                    @*<button type="button" class="btn btn-sm btn-outline-secondary" asp-action="Edit" asp-route-id="@item.Id">Edit</button>*@
+                                </div>
+                                <small class="text-muted">@Html.DisplayFor(modelItem => item.DateCreated)</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+@*@foreach (var item in Model)
+{
+    <div class="col-md-4">
+        <div class="card mb-4 box-shadow">
+            <div style="text-decoration:underline; text-align:center; padding:10px"><strong>@Html.DisplayFor(modelItem => item.Title)</strong></div>
+            <p class="card-text" ; style="padding-left:5px"> @Html.DisplayFor(modelItem => item.Body)</p>
+            <table class="table">
+                <tr>
+                    <div>@Html.DisplayFor(modelItem => item.Image)</div>
+                    <div style="text-align: center">@Html.DisplayFor(modelItem => item.Description)</div>
+                    <div style="text-align: center">@Html.DisplayFor(modelItem => item.Category.CategoryName)</div>
+                    <div style="text-align: center">@Html.DisplayFor(modelItem => item.DateCreated)</div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" asp-action="Edit" asp-route-id="@item.Id">Edit</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" asp-action="Details" asp-route-id="@item.Id">Details</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" asp-action="Delete" asp-route-id="@item.Id">Delete</button>
+                    </div>
+                </tr>
+            </table>
+        </div>
+    </div>
+}*@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -14,13 +145,11 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Album example for Bootstrap</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="../../../../dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="album.css" rel="stylesheet">
+    <title>Album example for Bootstrap</title>-->
+<!-- Bootstrap core CSS -->
+<!--<link href="../../../../dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!-- Custom styles for this template -->
+<!--<link href="album.css" rel="stylesheet">
 </head>
 
 <body>
@@ -84,15 +213,14 @@
                 <a href="#">Back to top</a>
             </p>
         </div>
-    </footer>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    </footer>-->
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="../../../../assets/js/vendor/popper.min.js"></script>
     <script src="../../../../dist/js/bootstrap.min.js"></script>
     <script src="../../../../assets/js/vendor/holder.min.js"></script>
 </body>
-</html>
+</html>-->

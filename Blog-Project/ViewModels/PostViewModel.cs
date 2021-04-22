@@ -1,4 +1,5 @@
-﻿using Personal_Blog_Project.Models;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Personal_Blog_Project.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,6 +24,8 @@ namespace Blog_Project.ViewModels
         [Required]
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+
+        public IEnumerable<SelectListItem> Categories { get; set; }
         //public List<Like> Likes { get; set; }
 
         //public DateTime DateCreated { get; set; }

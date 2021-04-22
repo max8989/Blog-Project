@@ -49,7 +49,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <input asp-for="Id" type="hidden" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -63,21 +63,35 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                <label asp-for="CategoryId" class="control-label">Category</label>
+                <select asp-for="CategoryId" class="form-control" asp-items="@Model.Categories"></select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="custom-file">
+                            <label asp-for="Image" class="control-label text-dark"></label>
+                            <input asp-for="Image" class="form-control" type="file" name="formFile" />
+                            <span asp-validation-for="Image" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
             <div class="form-group">
                 <label asp-for="Body" class="control-label"></label>
                 @*<input asp-for="Body" class="form-control" />*@
                 <textarea asp-for="Body" id="editor" placeholder="Enter Text Here"></textarea>
                 <span asp-validation-for="Body" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger"></span>
-            </div>
+
+
+            @*<div class="form-group">
+            <label asp-for="Image" class="control-label"></label>
+            <input asp-for="Image" class="form-control" />
+            <span asp-validation-for="Image" class="text-danger"></span>
+        </div>*@
 
 
             @*<div class="form-group">
@@ -85,13 +99,14 @@
             <input asp-for="DateCreated" class="form-control" />
             <span asp-validation-for="DateCreated" class="text-danger"></span>
         </div>*@
+            <br />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
+<br />
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

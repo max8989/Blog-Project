@@ -11,5 +11,6 @@ namespace Blog_Project.Data.Repository
     {
         bool addMainComments(int postId);
         bool addSubComments(MainComment mainComment);
+        //string addComment(string userId, int postId);
     }
 }

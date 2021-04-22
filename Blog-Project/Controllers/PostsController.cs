@@ -10,6 +10,8 @@ using Personal_Blog_Project.Models;
 using Microsoft.AspNetCore.Authorization;
 using Blog_Project.ViewModels;
 using Blog_Project.Data.Repository;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace Blog_Project.Controllers
 {
@@ -72,8 +74,8 @@ namespace Blog_Project.Controllers
         public IActionResult Create()
         {
             var postViewModel = new PostViewModel();
-
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId");
+            postViewModel.Categories = new SelectList(_context.Categories, "CategoryId", "CategoryName");
+            //ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
             return View(postViewModel);
         }
 
@@ -82,16 +84,26 @@ namespace Blog_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(PostViewModel postViewModel)
+        public async Task<IActionResult> Create(PostViewModel postViewModel, IFormFile formFile)
         {
             if (ModelState.IsValid)
             {
+                // Save img in Base64 format
+                byte[] bytes;
+                using (var memoryStream = new MemoryStream())
+                {
+                    formFile.CopyTo(memoryStream);
+                    bytes = memoryStream.ToArray();
+                }
+
+                string base64Img = Convert.ToBase64String(bytes);
+
                 var post = new Post
                 {
                     Title = postViewModel.Title,
                     Description = postViewModel.Description,
                     Body = postViewModel.Body,
-                    Image = postViewModel.Image,
+                    Image = base64Img,
                     DateCreated = DateTime.Now,
                     CategoryId = postViewModel.CategoryId
                 };
