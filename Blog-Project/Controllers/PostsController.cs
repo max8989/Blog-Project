@@ -48,13 +48,15 @@ namespace Blog_Project.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             //if admin show all posts
             // else show for current User
             var applicationDbContext = _context.Posts
                 .Include(c => c.Category)
                 .Include(l => l.Likes)
                 .Include(cc => cc.mainComments)
-                .ThenInclude(ccc => ccc.SubComments);
+                .ThenInclude(ccc => ccc.SubComments)
+                .Where(u => u.UserId == currentUser.Id);
 
             return View(await applicationDbContext.ToListAsync());
         }
