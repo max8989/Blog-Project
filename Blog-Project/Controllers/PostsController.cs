@@ -101,6 +101,7 @@ namespace Blog_Project.Controllers
             {
                 postViewModel = new PostViewModel
                 {
+                    Id = post.Id,
                     Title = post.Title,
                     Description = post.Description,
                     Body = post.Body,
@@ -305,7 +306,13 @@ namespace Blog_Project.Controllers
         [Authorize]
         public IActionResult addComment(int postId, string commentBody)
         {
-            return RedirectToAction("Details", postId);
+            var comment = new
+            {
+                postId = postId,
+                commentBody = commentBody
+            };
+            return (Json(comment));
+            //return RedirectToAction("Details", postId);
         }
 
         //public async Task<Comment[]> GetAllCommentAsync(bool includeMainComments = false)
