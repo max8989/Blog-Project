@@ -213,21 +213,21 @@ namespace Blog_Project.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2021, 4, 22, 15, 10, 46, 744, DateTimeKind.Local).AddTicks(2346),
+                            DateCreated = new DateTime(2021, 4, 22, 15, 16, 40, 519, DateTimeKind.Local).AddTicks(1789),
                             Message = "Super bon Post!!!",
                             PostId = 1
                         },
                         new
                         {
                             Id = 2,
-                            DateCreated = new DateTime(2021, 4, 22, 15, 10, 46, 747, DateTimeKind.Local).AddTicks(9097),
+                            DateCreated = new DateTime(2021, 4, 22, 15, 16, 40, 523, DateTimeKind.Local).AddTicks(593),
                             Message = "Cest mauvais",
                             PostId = 1
                         },
                         new
                         {
                             Id = 3,
-                            DateCreated = new DateTime(2021, 4, 22, 15, 10, 46, 747, DateTimeKind.Local).AddTicks(9212),
+                            DateCreated = new DateTime(2021, 4, 22, 15, 16, 40, 523, DateTimeKind.Local).AddTicks(695),
                             Message = "Cest le meilleur de toute ma vie!!!!!",
                             PostId = 2
                         });
@@ -272,7 +272,7 @@ namespace Blog_Project.Migrations
                             Id = 1,
                             Body = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',",
                             CategoryId = 1,
-                            DateCreated = new DateTime(2021, 4, 22, 15, 10, 46, 748, DateTimeKind.Local).AddTicks(5163),
+                            DateCreated = new DateTime(2021, 4, 22, 15, 16, 40, 523, DateTimeKind.Local).AddTicks(5620),
                             Description = "Description 1",
                             Title = "Le rechaufement planetaire"
                         },
@@ -281,7 +281,7 @@ namespace Blog_Project.Migrations
                             Id = 2,
                             Body = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',",
                             CategoryId = 2,
-                            DateCreated = new DateTime(2021, 4, 22, 15, 10, 46, 748, DateTimeKind.Local).AddTicks(6849),
+                            DateCreated = new DateTime(2021, 4, 22, 15, 16, 40, 523, DateTimeKind.Local).AddTicks(7041),
                             Description = "Description 2",
                             Title = "Le Covid 19"
                         });
@@ -315,14 +315,14 @@ namespace Blog_Project.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2021, 4, 22, 15, 10, 46, 748, DateTimeKind.Local).AddTicks(1042),
+                            DateCreated = new DateTime(2021, 4, 22, 15, 16, 40, 523, DateTimeKind.Local).AddTicks(2044),
                             MainCommentId = 1,
                             Message = "Non je ne penses pas..."
                         },
                         new
                         {
                             Id = 2,
-                            DateCreated = new DateTime(2021, 4, 22, 15, 10, 46, 748, DateTimeKind.Local).AddTicks(1308),
+                            DateCreated = new DateTime(2021, 4, 22, 15, 16, 40, 523, DateTimeKind.Local).AddTicks(2308),
                             MainCommentId = 3,
                             Message = "Oui 100% daccord"
                         });

@@ -265,52 +265,97 @@ namespace Blog_Project.Migrations
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "CategoryId", "CategoryName" },
-                values: new object[] { 1, "DotNet Core" });
+                values: new object[] { 1, "World" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "CategoryId", "CategoryName" },
-                values: new object[] { 2, "BlockChain" });
+                values: new object[] { 2, "U.S" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "CategoryId", "CategoryName" },
-                values: new object[] { 3, "La Cite" });
+                values: new object[] { 3, "Technology" });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "CategoryId", "CategoryName" },
+                values: new object[] { 4, "Design" });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "CategoryId", "CategoryName" },
+                values: new object[] { 5, "Culture" });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "CategoryId", "CategoryName" },
+                values: new object[] { 6, "Business" });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "CategoryId", "CategoryName" },
+                values: new object[] { 7, "Politics" });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "CategoryId", "CategoryName" },
+                values: new object[] { 8, "Opinion" });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "CategoryId", "CategoryName" },
+                values: new object[] { 9, "Science" });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "CategoryId", "CategoryName" },
+                values: new object[] { 10, "Health" });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "CategoryId", "CategoryName" },
+                values: new object[] { 11, "Style" });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "CategoryId", "CategoryName" },
+                values: new object[] { 12, "Travel" });
 
             migrationBuilder.InsertData(
                 table: "Posts",
                 columns: new[] { "Id", "Body", "CategoryId", "DateCreated", "Description", "Image", "Title", "UserId" },
-                values: new object[] { 1, "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',", 1, new DateTime(2021, 4, 22, 12, 50, 20, 777, DateTimeKind.Local).AddTicks(4095), "Description 1", null, "Le rechaufement planetaire", null });
+                values: new object[] { 1, "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',", 1, new DateTime(2021, 4, 22, 15, 16, 40, 523, DateTimeKind.Local).AddTicks(5620), "Description 1", null, "Le rechaufement planetaire", null });
 
             migrationBuilder.InsertData(
                 table: "Posts",
                 columns: new[] { "Id", "Body", "CategoryId", "DateCreated", "Description", "Image", "Title", "UserId" },
-                values: new object[] { 2, "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',", 2, new DateTime(2021, 4, 22, 12, 50, 20, 777, DateTimeKind.Local).AddTicks(5949), "Description 2", null, "Le Covid 19", null });
+                values: new object[] { 2, "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',", 2, new DateTime(2021, 4, 22, 15, 16, 40, 523, DateTimeKind.Local).AddTicks(7041), "Description 2", null, "Le Covid 19", null });
 
             migrationBuilder.InsertData(
                 table: "MainComments",
                 columns: new[] { "Id", "DateCreated", "Message", "PostId", "UserId" },
-                values: new object[] { 1, new DateTime(2021, 4, 22, 12, 50, 20, 772, DateTimeKind.Local).AddTicks(8268), "Super bon Post!!!", 1, null });
+                values: new object[] { 1, new DateTime(2021, 4, 22, 15, 16, 40, 519, DateTimeKind.Local).AddTicks(1789), "Super bon Post!!!", 1, null });
 
             migrationBuilder.InsertData(
                 table: "MainComments",
                 columns: new[] { "Id", "DateCreated", "Message", "PostId", "UserId" },
-                values: new object[] { 2, new DateTime(2021, 4, 22, 12, 50, 20, 776, DateTimeKind.Local).AddTicks(7377), "Cest mauvais", 1, null });
+                values: new object[] { 2, new DateTime(2021, 4, 22, 15, 16, 40, 523, DateTimeKind.Local).AddTicks(593), "Cest mauvais", 1, null });
 
             migrationBuilder.InsertData(
                 table: "MainComments",
                 columns: new[] { "Id", "DateCreated", "Message", "PostId", "UserId" },
-                values: new object[] { 3, new DateTime(2021, 4, 22, 12, 50, 20, 776, DateTimeKind.Local).AddTicks(7599), "Cest le meilleur de toute ma vie!!!!!", 2, null });
+                values: new object[] { 3, new DateTime(2021, 4, 22, 15, 16, 40, 523, DateTimeKind.Local).AddTicks(695), "Cest le meilleur de toute ma vie!!!!!", 2, null });
 
             migrationBuilder.InsertData(
                 table: "SubComments",
                 columns: new[] { "Id", "DateCreated", "MainCommentId", "Message", "UserId" },
-                values: new object[] { 1, new DateTime(2021, 4, 22, 12, 50, 20, 776, DateTimeKind.Local).AddTicks(9915), 1, "Non je ne penses pas...", null });
+                values: new object[] { 1, new DateTime(2021, 4, 22, 15, 16, 40, 523, DateTimeKind.Local).AddTicks(2044), 1, "Non je ne penses pas...", null });
 
             migrationBuilder.InsertData(
                 table: "SubComments",
                 columns: new[] { "Id", "DateCreated", "MainCommentId", "Message", "UserId" },
-                values: new object[] { 2, new DateTime(2021, 4, 22, 12, 50, 20, 777, DateTimeKind.Local).AddTicks(200), 3, "Oui 100% daccord", null });
+                values: new object[] { 2, new DateTime(2021, 4, 22, 15, 16, 40, 523, DateTimeKind.Local).AddTicks(2308), 3, "Oui 100% daccord", null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
