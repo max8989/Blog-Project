@@ -298,10 +298,19 @@ namespace Blog_Project.Controllers
         }
 
         // IMPLEMENT Olivier
-        // 0 => liked, 1 => unliked, 2 => error
-        public int toggleLike(string userId, Post post, bool isLiked)
+        // -1 => error, 0 => liked, 1 => unliked, 
+        public async Task<int> toggleLikeAsync(string userId, Post post, bool isLiked)
         {
-            return 0;
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (isLiked)
+            {
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
         }
 
         // IMPLEMENT Justin
