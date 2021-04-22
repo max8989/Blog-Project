@@ -25,25 +25,19 @@ namespace Blog_Project.Controllers
         // IMPLEMENT
         public async Task<IActionResult> Index(int? categoryId)
         {
-            //if categoryId != null => get by category
-
             //else get all post
             var applicationDbContext = _context.Posts
                 .Include(c => c.Category)
-                .Include(l => l.Likes)
-                .Include(cc => cc.mainComments)
-                .ThenInclude(ccc => ccc.SubComments)
                 .OrderBy(d => d.DateCreated);
+
+            if (categoryId != null)
+            {
+                return View(await applicationDbContext.Where(c => c.CategoryId == categoryId).ToListAsync());
+            }
 
             return View(await applicationDbContext.ToListAsync());
 
         }
-
-        // IMPLEMENT
-        //public IActionResult IndexByCategory(int? categoryId)
-        //{
-        //    return RedirectToAction("Index", categoryId);
-        //}
 
         public IActionResult Privacy()
         {
