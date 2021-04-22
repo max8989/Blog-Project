@@ -64,7 +64,19 @@ namespace Blog_Project.Controllers
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
+            if (post.UserId != null)
+            {
+                string firstName = _context.Users.Find(post.UserId).FirstName;
+                string lastname = _context.Users.Find(post.UserId).LastName;
+                var j = new
+                {
+                    firstName = firstName,
+                    lastname = lastname
+                };
+                // return (Json(j));
+            }
             
+
             if (post == null)
             {
                 return NotFound();
