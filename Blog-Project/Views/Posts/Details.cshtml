@@ -1,4 +1,4 @@
-﻿@model Post
+﻿@model PostViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -15,9 +15,10 @@
     <div>
         <div>
             <div>
-                <h5>
-                    Par: @Model.UserId Belanger
-                </h5>
+                    @if(Model.FirstName != null && Model.LastName != null)
+                    {
+                        <h5>Par: @Model.FirstName @Model.LastName</h5>
+                    }
                 <div>
                     <small class="text-muted">@Model.DateCreated.ToShortDateString()</small>
                 </div>

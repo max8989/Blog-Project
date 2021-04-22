@@ -90,7 +90,7 @@ namespace Blog_Project.Controllers
             {
                 return NotFound();
             }
-
+            // Get post by id
             var post = await _context.Posts
                 .Include(p => p.mainComments)
                 .ThenInclude(p=> p.SubComments)
@@ -98,25 +98,36 @@ namespace Blog_Project.Controllers
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
+            var postViewModel = new PostViewModel();
+
+            if(post != null)
+            {
+                postViewModel = new PostViewModel
+                {
+                    Title = post.Title,
+                    Description = post.Description,
+                    Body = post.Body,
+                    Image = post.Image,
+                    CategoryId = post.CategoryId,
+                    Category = post.Category,
+                    DateCreated = post.DateCreated,
+                    Likes = post.Likes,
+                    mainComments = post.mainComments
+                };
+            }
             if (post.UserId != null)
             {
-                string firstName = _context.Users.Find(post.UserId).FirstName;
-                string lastname = _context.Users.Find(post.UserId).LastName;
-                var j = new
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                var firstName = _context.Users.Find(post.UserId)?.FirstName;
+                var lastName = _context.Users.Find(post.UserId)?.LastName;
+               
+                if(firstName != null && lastName != null)
                 {
-                    firstName = firstName,
-                    lastname = lastname
-                };
-                // return (Json(j));
+                    postViewModel.FirstName = firstName;
+                    postViewModel.LastName = lastName;
+                }
             }
-            
-
-            if (post == null)
-            {
-                return NotFound();
-            }
-
-            return View(post);
+            return View(postViewModel);
         }
 
         [Authorize]

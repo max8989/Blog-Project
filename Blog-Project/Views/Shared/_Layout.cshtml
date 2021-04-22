@@ -41,7 +41,10 @@
             <div class="row flex-nowrap justify-content-between align-items-center">
                 <div class="col-4 pt-1">
                     @*<a class="link-secondary" href="#">Subscribe</a>*@
-                    <a class="link-secondary" asp-area="" asp-controller="Posts" asp-action="Index">My Posts</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a class="link-secondary" asp-area="" asp-controller="Posts" asp-action="Index">My Posts</a>
+                    }
                 </div>
                 <div class="col-4 text-center">
                     <a class="blog-header-logo text-dark" asp-area="" asp-controller="Home" asp-action="Index">My Blog</a>

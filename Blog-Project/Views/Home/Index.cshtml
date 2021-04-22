@@ -27,7 +27,7 @@
                 <div class="col p-4 d-flex flex-column position-static">
                     <strong class="d-inline-block mb-2 text-primary">@post.Category.CategoryName</strong>
                     <h3 class="mb-0">@post.Title</h3>
-                    <div class="mb-1 text-muted">@post.DateCreated</div>
+                    <div class="mb-1 text-muted">@post.DateCreated.ToShortDateString()</div>
                     <p class="card-text mb-auto">@post.Description</p>
                     <a class="stretched-link" asp-area="" asp-controller="Posts" asp-action="Details" asp-route-id="@post.Id">Continue reading</a>
                 </div>

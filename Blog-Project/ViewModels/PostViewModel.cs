@@ -27,14 +27,16 @@ namespace Blog_Project.ViewModels
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
+        public DateTime DateCreated { get; set; }
+        //public string CategoryName { get; set; }
         public string UserId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
         public IEnumerable<SelectListItem> Categories { get; set; }
-        //public List<Like> Likes { get; set; }
+        public List<Like> Likes { get; set; }
 
-        //public DateTime DateCreated { get; set; }
-
-        //public List<MainComment> mainComments { get; set; }
+        public List<MainComment> mainComments { get; set; }
         //public IEnumerable<Post> Posts { get; set; }
 
     }
