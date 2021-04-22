@@ -30,6 +30,14 @@ namespace Blog_Project.Controllers
 
         }
 
+        // USER ID
+        //var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+        //currentUser.Id;
+
+        // DB Post
+       // _context.Posts
+
+
         // GET: Posts
         public async Task<IActionResult> Index()
         {
@@ -48,6 +56,29 @@ namespace Blog_Project.Controllers
 
             return View(await applicationDbContext.ToListAsync());
         }
+
+        // Danik / Marc
+        // GET: Posts for current user IMPLEMENT
+        public async Task<IActionResult> Index(string userId)
+        {
+            //var postViewModel = new PostViewModel
+            //{
+            //    Posts = await _postRepository.GetAllPosts()
+            //};
+            //return View(postViewModel);
+           
+
+            var applicationDbContext = _context.Posts
+                .Include(c => c.Category)
+                .Include(l => l.Likes)
+                .Include(cc => cc.mainComments)
+                .ThenInclude(ccc => ccc.SubComments);
+
+            return View(await applicationDbContext.ToListAsync());
+        }
+
+        // Olivier
+        //[Route("api/")]
 
         // GET: Posts/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -233,5 +264,9 @@ namespace Blog_Project.Controllers
         {
             return _context.Posts.Any(e => e.Id == id);
         }
+
+
+
+
     }
 }
