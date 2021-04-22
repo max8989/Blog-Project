@@ -1,0 +1,7 @@
+﻿@model IEnumerable<Category>
+
+
+@foreach (var category in Model)
+{
+    <a class="p-2 link-secondary" href="#">@category.CategoryName</a>
+}

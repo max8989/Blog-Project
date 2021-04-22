@@ -1,4 +1,4 @@
-﻿using Personal_Blog_Project.Models;
+﻿using Blog_Project.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

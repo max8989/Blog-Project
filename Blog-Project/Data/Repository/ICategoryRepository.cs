@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace Blog_Project.Data.Repository
 {
-    public interface ICommentRepository
+    public interface ICategoryRepository
     {
-        bool addMainComments(int postId);
-        bool addSubComments(MainComment mainComment);
-        //string addComment(string userId, int postId);
+        IEnumerable<Category> AllCategories { get; }
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Blog_Project.Data;
-using Personal_Blog_Project.Models;
+using Blog_Project.Models;
 using Microsoft.AspNetCore.Authorization;
 using Blog_Project.ViewModels;
 using Blog_Project.Data.Repository;
