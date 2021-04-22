@@ -107,7 +107,7 @@ namespace Blog_Project.Controllers
                     string base64Img = Convert.ToBase64String(bytes);
                     postViewModel.Image = base64Img;
                 }
-               
+
 
                 var post = new Post
                 {
@@ -116,7 +116,8 @@ namespace Blog_Project.Controllers
                     Body = postViewModel.Body,
                     DateCreated = DateTime.Now,
                     CategoryId = postViewModel.CategoryId,
-                    UserId = postViewModel.UserId
+                    UserId = postViewModel.UserId,
+                    Image = postViewModel.Image
                 };
 
                 _context.Add(post);
