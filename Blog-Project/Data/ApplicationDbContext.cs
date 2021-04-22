@@ -11,6 +11,7 @@ namespace Blog_Project.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         private readonly IDateTimeNow _dateTimeNow;
+         
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IDateTimeNow dateTimeNow)
             : base(options)
         {
