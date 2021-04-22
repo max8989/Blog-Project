@@ -69,6 +69,7 @@ namespace Blog_Project
             services.AddTransient<IDateTimeNow, DateTimeNow>();
             services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<ICommentRepository, CommentRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
 
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
@@ -107,7 +108,7 @@ namespace Blog_Project
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Posts}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

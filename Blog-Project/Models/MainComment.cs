@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Personal_Blog_Project.Models
+namespace Blog_Project.Models
 {
     public class MainComment : Comment
     {

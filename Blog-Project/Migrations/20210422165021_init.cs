@@ -178,7 +178,8 @@ namespace Blog_Project.Migrations
                     Image = table.Column<string>(type: "TEXT", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     CategoryId = table.Column<int>(type: "INTEGER", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UserId = table.Column<string>(type: "NVARCHAR(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -225,6 +226,7 @@ namespace Blog_Project.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     PostId = table.Column<int>(type: "INTEGER", nullable: false),
                     Message = table.Column<string>(type: "TEXT", nullable: true),
+                    UserId = table.Column<string>(type: "NVARCHAR(450)", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -246,6 +248,7 @@ namespace Blog_Project.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     MainCommentId = table.Column<int>(type: "INTEGER", nullable: false),
                     Message = table.Column<string>(type: "TEXT", nullable: true),
+                    UserId = table.Column<string>(type: "NVARCHAR(450)", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -276,38 +279,38 @@ namespace Blog_Project.Migrations
 
             migrationBuilder.InsertData(
                 table: "Posts",
-                columns: new[] { "Id", "Body", "CategoryId", "DateCreated", "Description", "Image", "Title" },
-                values: new object[] { 1, "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',", 1, new DateTime(2021, 4, 17, 23, 56, 27, 267, DateTimeKind.Local).AddTicks(7014), "Description 1", null, "Le rechaufement planetaire" });
+                columns: new[] { "Id", "Body", "CategoryId", "DateCreated", "Description", "Image", "Title", "UserId" },
+                values: new object[] { 1, "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',", 1, new DateTime(2021, 4, 22, 12, 50, 20, 777, DateTimeKind.Local).AddTicks(4095), "Description 1", null, "Le rechaufement planetaire", null });
 
             migrationBuilder.InsertData(
                 table: "Posts",
-                columns: new[] { "Id", "Body", "CategoryId", "DateCreated", "Description", "Image", "Title" },
-                values: new object[] { 2, "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',", 2, new DateTime(2021, 4, 17, 23, 56, 27, 267, DateTimeKind.Local).AddTicks(8503), "Description 2", null, "Le Covid 19" });
+                columns: new[] { "Id", "Body", "CategoryId", "DateCreated", "Description", "Image", "Title", "UserId" },
+                values: new object[] { 2, "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',", 2, new DateTime(2021, 4, 22, 12, 50, 20, 777, DateTimeKind.Local).AddTicks(5949), "Description 2", null, "Le Covid 19", null });
 
             migrationBuilder.InsertData(
                 table: "MainComments",
-                columns: new[] { "Id", "DateCreated", "Message", "PostId" },
-                values: new object[] { 1, new DateTime(2021, 4, 17, 23, 56, 27, 264, DateTimeKind.Local).AddTicks(904), "Super bon Post!!!", 1 });
+                columns: new[] { "Id", "DateCreated", "Message", "PostId", "UserId" },
+                values: new object[] { 1, new DateTime(2021, 4, 22, 12, 50, 20, 772, DateTimeKind.Local).AddTicks(8268), "Super bon Post!!!", 1, null });
 
             migrationBuilder.InsertData(
                 table: "MainComments",
-                columns: new[] { "Id", "DateCreated", "Message", "PostId" },
-                values: new object[] { 2, new DateTime(2021, 4, 17, 23, 56, 27, 267, DateTimeKind.Local).AddTicks(1595), "Cest mauvais", 1 });
+                columns: new[] { "Id", "DateCreated", "Message", "PostId", "UserId" },
+                values: new object[] { 2, new DateTime(2021, 4, 22, 12, 50, 20, 776, DateTimeKind.Local).AddTicks(7377), "Cest mauvais", 1, null });
 
             migrationBuilder.InsertData(
                 table: "MainComments",
-                columns: new[] { "Id", "DateCreated", "Message", "PostId" },
-                values: new object[] { 3, new DateTime(2021, 4, 17, 23, 56, 27, 267, DateTimeKind.Local).AddTicks(1699), "Cest le meilleur de toute ma vie!!!!!", 2 });
+                columns: new[] { "Id", "DateCreated", "Message", "PostId", "UserId" },
+                values: new object[] { 3, new DateTime(2021, 4, 22, 12, 50, 20, 776, DateTimeKind.Local).AddTicks(7599), "Cest le meilleur de toute ma vie!!!!!", 2, null });
 
             migrationBuilder.InsertData(
                 table: "SubComments",
-                columns: new[] { "Id", "DateCreated", "MainCommentId", "Message" },
-                values: new object[] { 1, new DateTime(2021, 4, 17, 23, 56, 27, 267, DateTimeKind.Local).AddTicks(3169), 1, "Non je ne penses pas..." });
+                columns: new[] { "Id", "DateCreated", "MainCommentId", "Message", "UserId" },
+                values: new object[] { 1, new DateTime(2021, 4, 22, 12, 50, 20, 776, DateTimeKind.Local).AddTicks(9915), 1, "Non je ne penses pas...", null });
 
             migrationBuilder.InsertData(
                 table: "SubComments",
-                columns: new[] { "Id", "DateCreated", "MainCommentId", "Message" },
-                values: new object[] { 2, new DateTime(2021, 4, 17, 23, 56, 27, 267, DateTimeKind.Local).AddTicks(3467), 3, "Oui 100% daccord" });
+                columns: new[] { "Id", "DateCreated", "MainCommentId", "Message", "UserId" },
+                values: new object[] { 2, new DateTime(2021, 4, 22, 12, 50, 20, 777, DateTimeKind.Local).AddTicks(200), 3, "Oui 100% daccord", null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

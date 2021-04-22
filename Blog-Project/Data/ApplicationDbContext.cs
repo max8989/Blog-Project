@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Personal_Blog_Project.Models;
+using Blog_Project.Models;
 using Blog_Project.Data.Repository;
 
 namespace Blog_Project.Data
@@ -28,9 +28,18 @@ namespace Blog_Project.Data
             base.OnModelCreating(builder);
 
             // Seed Categories
-            builder.Entity<Category>().HasData(new Category { CategoryId = 1, CategoryName = "DotNet Core" });
-            builder.Entity<Category>().HasData(new Category { CategoryId = 2, CategoryName = "BlockChain" });
-            builder.Entity<Category>().HasData(new Category { CategoryId = 3, CategoryName = "La Cite" });
+            builder.Entity<Category>().HasData(new Category { CategoryId = 1, CategoryName = "World" });
+            builder.Entity<Category>().HasData(new Category { CategoryId = 2, CategoryName = "U.S" });
+            builder.Entity<Category>().HasData(new Category { CategoryId = 3, CategoryName = "Technology" });
+            builder.Entity<Category>().HasData(new Category { CategoryId = 4, CategoryName = "Design" });
+            builder.Entity<Category>().HasData(new Category { CategoryId = 5, CategoryName = "Culture" });
+            builder.Entity<Category>().HasData(new Category { CategoryId = 6, CategoryName = "Business" });
+            builder.Entity<Category>().HasData(new Category { CategoryId = 7, CategoryName = "Politics" });
+            builder.Entity<Category>().HasData(new Category { CategoryId = 8, CategoryName = "Opinion" });
+            builder.Entity<Category>().HasData(new Category { CategoryId = 9, CategoryName = "Science" });
+            builder.Entity<Category>().HasData(new Category { CategoryId = 10, CategoryName = "Health" });
+            builder.Entity<Category>().HasData(new Category { CategoryId = 11, CategoryName = "Style" });
+            builder.Entity<Category>().HasData(new Category { CategoryId = 12, CategoryName = "Travel" });
 
             // Seed MainComments
             builder.Entity<MainComment>().HasData(new MainComment 
