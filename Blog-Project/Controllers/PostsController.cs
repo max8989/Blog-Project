@@ -59,7 +59,7 @@ namespace Blog_Project.Controllers
 
         // Danik / Marc
         // GET: Posts for current user IMPLEMENT
-        public async Task<IActionResult> Index(string userId)
+        public async Task<IActionResult> IndexByUser(string userId)
         {
             //var postViewModel = new PostViewModel
             //{

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blog_Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210422022254_addingPostUserId")]
-    partial class addingPostUserId
+    [Migration("20210422165021_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -289,6 +289,9 @@ namespace Blog_Project.Migrations
                     b.Property<int>("PostId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("NVARCHAR(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
@@ -299,21 +302,21 @@ namespace Blog_Project.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2021, 4, 21, 22, 22, 53, 772, DateTimeKind.Local).AddTicks(7921),
+                            DateCreated = new DateTime(2021, 4, 22, 12, 50, 20, 772, DateTimeKind.Local).AddTicks(8268),
                             Message = "Super bon Post!!!",
                             PostId = 1
                         },
                         new
                         {
                             Id = 2,
-                            DateCreated = new DateTime(2021, 4, 21, 22, 22, 53, 776, DateTimeKind.Local).AddTicks(2953),
+                            DateCreated = new DateTime(2021, 4, 22, 12, 50, 20, 776, DateTimeKind.Local).AddTicks(7377),
                             Message = "Cest mauvais",
                             PostId = 1
                         },
                         new
                         {
                             Id = 3,
-                            DateCreated = new DateTime(2021, 4, 21, 22, 22, 53, 776, DateTimeKind.Local).AddTicks(3068),
+                            DateCreated = new DateTime(2021, 4, 22, 12, 50, 20, 776, DateTimeKind.Local).AddTicks(7599),
                             Message = "Cest le meilleur de toute ma vie!!!!!",
                             PostId = 2
                         });
@@ -358,7 +361,7 @@ namespace Blog_Project.Migrations
                             Id = 1,
                             Body = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',",
                             CategoryId = 1,
-                            DateCreated = new DateTime(2021, 4, 21, 22, 22, 53, 776, DateTimeKind.Local).AddTicks(9068),
+                            DateCreated = new DateTime(2021, 4, 22, 12, 50, 20, 777, DateTimeKind.Local).AddTicks(4095),
                             Description = "Description 1",
                             Title = "Le rechaufement planetaire"
                         },
@@ -367,7 +370,7 @@ namespace Blog_Project.Migrations
                             Id = 2,
                             Body = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',",
                             CategoryId = 2,
-                            DateCreated = new DateTime(2021, 4, 21, 22, 22, 53, 777, DateTimeKind.Local).AddTicks(765),
+                            DateCreated = new DateTime(2021, 4, 22, 12, 50, 20, 777, DateTimeKind.Local).AddTicks(5949),
                             Description = "Description 2",
                             Title = "Le Covid 19"
                         });
@@ -388,6 +391,9 @@ namespace Blog_Project.Migrations
                     b.Property<string>("Message")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("NVARCHAR(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MainCommentId");
@@ -398,14 +404,14 @@ namespace Blog_Project.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2021, 4, 21, 22, 22, 53, 776, DateTimeKind.Local).AddTicks(4737),
+                            DateCreated = new DateTime(2021, 4, 22, 12, 50, 20, 776, DateTimeKind.Local).AddTicks(9915),
                             MainCommentId = 1,
                             Message = "Non je ne penses pas..."
                         },
                         new
                         {
                             Id = 2,
-                            DateCreated = new DateTime(2021, 4, 21, 22, 22, 53, 776, DateTimeKind.Local).AddTicks(5103),
+                            DateCreated = new DateTime(2021, 4, 22, 12, 50, 20, 777, DateTimeKind.Local).AddTicks(200),
                             MainCommentId = 3,
                             Message = "Oui 100% daccord"
                         });
