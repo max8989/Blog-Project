@@ -21,13 +21,16 @@ namespace Blog_Project.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IPostRepository _postRepository;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public PostsController(ApplicationDbContext context, IPostRepository postRepository, UserManager<ApplicationUser> userManager)
+        public PostsController(ApplicationDbContext context, IPostRepository postRepository,
+                                                    UserManager<ApplicationUser> userManager,
+                                                    ICategoryRepository categoryRepository)
         {
             _context = context;
             _postRepository = postRepository;
             _userManager = userManager;
-
+            _categoryRepository = categoryRepository;
         }
 
         // USER ID
@@ -122,7 +125,7 @@ namespace Blog_Project.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             var postViewModel = new PostViewModel();
-            postViewModel.Categories = new SelectList(_context.Categories, "CategoryId", "CategoryName");
+            postViewModel.Categories = new SelectList(_categoryRepository.AllCategories, "CategoryId", "CategoryName");
             postViewModel.UserId = currentUser.Id;
             return View(postViewModel);
         }
@@ -167,25 +170,9 @@ namespace Blog_Project.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", post.CategoryId);
             return View(postViewModel);
         }
 
-
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,Title,Body,Image,Description,CategoryId,DateCreated")] Post post)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(post);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", post.CategoryId);
-        //    return View(post);
-        //}
 
         [Authorize]
         // GET: Posts/Edit/5
@@ -201,8 +188,23 @@ namespace Blog_Project.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", post.CategoryId);
-            return View(post);
+
+            var postViewModel = new PostViewModel
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Description = post.Description,
+                Body = post.Body,
+                CategoryId = post.CategoryId,
+                UserId = post.UserId,
+                Image = post.Image,
+                Categories = new SelectList(_categoryRepository.AllCategories, "CategoryId", "CategoryName")
+        };
+
+
+
+            //ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", post.CategoryId);
+            return View(postViewModel);
         }
 
         // POST: Posts/Edit/5
@@ -210,23 +212,30 @@ namespace Blog_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Body,Image,Description,CategoryId,DateCreated")] Post post)
+        public async Task<IActionResult> Edit(PostViewModel postViewModel)
         {
-            if (id != post.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var post = await _context.Posts.FindAsync(postViewModel.Id);
+                    if (post == null)
+                    {
+                        return NotFound();
+                    }
+
+                    post.Title = postViewModel.Title;
+                    post.Description = postViewModel.Description;
+                    post.Body = postViewModel.Body;
+                    post.CategoryId = postViewModel.CategoryId;
+                    post.Image = postViewModel.Image;
+
                     _context.Update(post);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PostExists(post.Id))
+                    if (!PostExists(postViewModel.Id))
                     {
                         return NotFound();
                     }
@@ -237,8 +246,8 @@ namespace Blog_Project.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", post.CategoryId);
-            return View(post);
+            //ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", post.CategoryId);
+            return View(postViewModel);
         }
 
         [Authorize]

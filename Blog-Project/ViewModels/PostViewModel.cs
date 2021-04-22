@@ -6,6 +6,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blog_Project.Data;
+using Blog_Project.Data.Repository;
 
 namespace Blog_Project.ViewModels
 {
