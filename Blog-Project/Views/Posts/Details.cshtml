@@ -99,7 +99,8 @@
                 <div class="form-group">
                     <textarea class="form-control" rows="3"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary" style="margin-top:1em">Submit</button>
+                <button onclick="location.href='@Url.Action( "Details","Home", new { postId = 1, commentBody = "" })'"
+                        type="submit" class="btn btn-primary" style="margin-top:1em">Submit</button>
             </form>
         </div>
     </div>

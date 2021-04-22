@@ -38,19 +38,18 @@ namespace Blog_Project.Controllers
         //currentUser.Id;
 
         // DB Post
-       // _context.Posts
+        // _context.Posts
+
+        //=========================================================================================================================================//
 
 
-        // GET: Posts
+        // Danik / Marc
+        // GET: Posts for current user IMPLEMENT
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            //var postViewModel = new PostViewModel
-            //{
-            //    Posts = await _postRepository.GetAllPosts()
-            //};
-            //return View(postViewModel);
-
-
+            //if admin show all posts
+            // else show for current User
             var applicationDbContext = _context.Posts
                 .Include(c => c.Category)
                 .Include(l => l.Likes)
@@ -80,8 +79,6 @@ namespace Blog_Project.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // Olivier
-        //[Route("api/")]
 
         // GET: Posts/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -297,7 +294,39 @@ namespace Blog_Project.Controllers
             return _context.Posts.Any(e => e.Id == id);
         }
 
+        // IMPLEMENT Olivier
+        // 0 => liked, 1 => unliked, 2 => error
+        public int toggleLike(string userId, Post post, bool isLiked)
+        {
+            return 0;
+        }
 
+        // IMPLEMENT Justin
+        [Authorize]
+        public IActionResult addComment(int postId, string commentBody)
+        {
+            return RedirectToAction("Details", postId);
+        }
+
+        //public async Task<Comment[]> GetAllCommentAsync(bool includeMainComments = false)
+        //{
+        //    _logger.LogInformation($"Getting all comments");
+
+        //    IQueryable<Comment> query = _context.Comment
+        //        .Include(c => c.Post);
+
+        //    if (includeMainComments)
+        //    {
+        //        query = query
+        //          .Include(c => c.mainComments)
+        //          .ThenInclude(t => t.subComments);
+        //    }
+
+        //    // Order It
+        //    query = query.OrderByDescending(c => c.EventDate);
+
+        //    return await query.ToArrayAsync();
+        //}
 
 
     }

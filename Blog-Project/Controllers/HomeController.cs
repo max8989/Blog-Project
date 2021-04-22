@@ -22,8 +22,12 @@ namespace Blog_Project.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        // IMPLEMENT
+        public async Task<IActionResult> Index(int? categoryId)
         {
+            //if categoryId != null => get by category
+
+            //else get all post
             var applicationDbContext = _context.Posts
                 .Include(c => c.Category)
                 .Include(l => l.Likes)
@@ -34,6 +38,12 @@ namespace Blog_Project.Controllers
             return View(await applicationDbContext.ToListAsync());
 
         }
+
+        // IMPLEMENT
+        //public IActionResult IndexByCategory(int? categoryId)
+        //{
+        //    return RedirectToAction("Index", categoryId);
+        //}
 
         public IActionResult Privacy()
         {
