@@ -98,9 +98,10 @@
 
                                 @if (SignInManager.IsSignedIn(User))
                                 {
-                                    var CurrentUserId = UserManager.Users.FirstOrDefault(u => u.UserName == User.Identity.Name)?.Id;
+                                    var CurrentUser = UserManager.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+                                    var CurrentUserId = CurrentUser?.Id;
 
-                                    if (comment.UserId == CurrentUserId)
+                                    if (comment.UserId == CurrentUserId || User.IsInRole("Admin"))
                                     {
                                         <button type="button" onclick="location.href='@Url.Action( "deleteComment","Posts", new {  postId = Model.Id, commentId = comment.Id })'"
                                                 class="btn btn-sm btn-outline-secondary">
