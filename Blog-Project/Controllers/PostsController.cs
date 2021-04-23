@@ -133,6 +133,15 @@ namespace Blog_Project.Controllers
                     comments.Add(commentViewModel);
                 }
 
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                var liked = _context.Likes.Where(l => l.Post == post).Where(l => l.UserId == currentUser.Id).Single();
+                bool isLiked = false;
+
+                if (liked != null)
+                {
+                    isLiked = true;
+                }
+
                 postViewModel = new PostViewModel
                 {
                     Id = post.Id,
@@ -144,7 +153,8 @@ namespace Blog_Project.Controllers
                     Category = post.Category,
                     DateCreated = post.DateCreated,
                     Likes = post.Likes,
-                    mainComments = comments
+                    mainComments = comments,
+                    IsLiked = isLiked
                 };
             }
             if (post.UserId != null)
@@ -245,8 +255,8 @@ namespace Blog_Project.Controllers
                 UserId = post.UserId,
                 Image = post.Image,
                 Categories = new SelectList(_categoryRepository.AllCategories, "CategoryId", "CategoryName")
-        };
-
+            };
+          
 
 
             //ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", post.CategoryId);
@@ -334,17 +344,31 @@ namespace Blog_Project.Controllers
 
         // IMPLEMENT Olivier
         // -1 => error, 0 => liked, 1 => unliked, 
-        public async Task<int> toggleLikeAsync(string userId, Post post, bool isLiked)
+        public async Task<int> toggleLikeAsync(Post post)
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            var Liked =  _context.Likes.Where(l => l.Post == post).Where(l => l.UserId == currentUser.Id).Single();
 
-            if (isLiked)
+            if (Liked != null)
             {
-                return 0;
+                // unlike
+                _context.Likes.Remove(Liked);
+                _context.SaveChanges();
+                return 1;
             }
             else
             {
-                return 1;
+                // like
+                var newLike = new Like
+                {
+                    Post = post, 
+                    UserId = currentUser.Id,
+                    User = currentUser
+                };
+
+                _context.Likes.Add(newLike);
+                _context.SaveChanges();
+                return 0;
             }
         }
 
