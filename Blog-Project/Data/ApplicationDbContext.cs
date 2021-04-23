@@ -80,14 +80,14 @@ namespace Blog_Project.Data
             });
             builder.Entity<MainComment>().HasData(new MainComment
             {
-                Id = 5,
+                Id = 6,
                 Message = "You are right, this is very bad",
                 DateCreated = _dateTimeNow.GetDateTimeNow(),
                 PostId =4
             });
             builder.Entity<MainComment>().HasData(new MainComment
             {
-                Id = 6,
+                Id = 7,
                 Message = "ive seen worse",
                 DateCreated = _dateTimeNow.GetDateTimeNow(),
                 PostId = 4
