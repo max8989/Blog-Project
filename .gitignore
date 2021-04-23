@@ -368,4 +368,3 @@ bin/
 Blog-Post.db
 Blog-Post.db-shm
 Blog-Post.db-wal
-Migrations/
