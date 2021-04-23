@@ -1,4 +1,7 @@
-﻿@model PostViewModel
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@model PostViewModel
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -83,7 +86,19 @@
                             <small class="text-muted">@comment.DateCreated.ToShortDateString()</small>
                             <div class="btn-group">
 
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    var CurrentUserId = UserManager.Users.FirstOrDefault(u => u.UserName == User.Identity.Name)?.Id;
+
+                                    if (comment.UserId == CurrentUserId)
+                                    {
+                                        <button type="button" onclick="location.href='@Url.Action( "deleteComment","Posts", new {  postId = Model.Id, commentId = comment.Id })'"
+                                                class="btn btn-sm btn-outline-secondary">
+                                            Delete
+                                        </button>
+                                    }
+                                }
+
 
                             </div>
                         </div>

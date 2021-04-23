@@ -393,6 +393,29 @@ namespace Blog_Project.Controllers
             }
         }
 
+        [Authorize]
+        public async Task<IActionResult> deleteComment(int postId, int commentId)
+        {
+            try
+            {
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                var comment = await _context.MainComments.FindAsync(commentId);
+
+                if(comment.UserId == currentUser.Id)
+                {
+                    _context.MainComments.Remove(comment);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+            return RedirectToAction("Details", "Posts", new {id = postId });
+        }
+
         //public async Task<Comment[]> GetAllCommentAsync(bool includeMainComments = false)
         //{
         //    _logger.LogInformation($"Getting all comments");
