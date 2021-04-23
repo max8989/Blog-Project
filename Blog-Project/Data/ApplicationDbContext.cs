@@ -64,25 +64,34 @@ namespace Blog_Project.Data
                 DateCreated = _dateTimeNow.GetDateTimeNow(),
                 PostId = 2
             });
-
-
-            // Seed SubComments
-            builder.Entity<SubComment>().HasData(new SubComment
+            builder.Entity<MainComment>().HasData(new MainComment
             {
-                Id = 1,
-                MainCommentId = 1,
-                Message = "Non je ne penses pas...",
-                DateCreated = _dateTimeNow.GetDateTimeNow()
+                Id = 4,
+                Message = "Its not THAT good",
+                DateCreated = _dateTimeNow.GetDateTimeNow(),
+                PostId = 3
             });
-
-            builder.Entity<SubComment>().HasData(new SubComment
+            builder.Entity<MainComment>().HasData(new MainComment
             {
-                Id = 2,
-                MainCommentId = 3,
-                Message = "Oui 100% daccord",
-                DateCreated = _dateTimeNow.GetDateTimeNow()       
+                Id = 5,
+                Message = "Amen Brother!",
+                DateCreated = _dateTimeNow.GetDateTimeNow(),
+                PostId = 3
             });
-
+            builder.Entity<MainComment>().HasData(new MainComment
+            {
+                Id = 5,
+                Message = "You are right, this is very bad",
+                DateCreated = _dateTimeNow.GetDateTimeNow(),
+                PostId =4
+            });
+            builder.Entity<MainComment>().HasData(new MainComment
+            {
+                Id = 6,
+                Message = "ive seen worse",
+                DateCreated = _dateTimeNow.GetDateTimeNow(),
+                PostId = 4
+            });
 
 
             // Seed Post
@@ -121,6 +130,41 @@ namespace Blog_Project.Data
                 //}
             });
 
+
+            builder.Entity<Post>().HasData(new Post
+            {
+                Id = 3,
+                Title = "The Best blog post in the world",
+                Body = "It is a long established fact that a reader will be distracted" +
+                " by the readable content of a page when looking at its layout." +
+                " The point of using Lorem Ipsum is that it has a more-or-less normal" +
+                " distribution of letters, as opposed to using 'Content here, content here',",
+                Description = "its the best one out there",
+                CategoryId = 2,
+                DateCreated = _dateTimeNow.GetDateTimeNow(),
+                //mainComments = new List<MainComment>()
+                //{
+                //    new MainComment {Id = 3}
+                //}
+            });
+
+
+            builder.Entity<Post>().HasData(new Post
+            {
+                Id = 4,
+                Title = "The WORST blog post in the world",
+                Body = "It is a long established fact that a reader will be distracted" +
+                " by the readable content of a page when looking at its layout." +
+                " The point of using Lorem Ipsum is that it has a more-or-less normal" +
+                " distribution of letters, as opposed to using 'Content here, content here',",
+                Description = "its the WORST one out there",
+                CategoryId = 2,
+                DateCreated = _dateTimeNow.GetDateTimeNow(),
+                //mainComments = new List<MainComment>()
+                //{
+                //    new MainComment {Id = 3}
+                //}
+            });
 
 
         }
