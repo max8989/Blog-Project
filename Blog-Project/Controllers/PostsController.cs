@@ -133,15 +133,6 @@ namespace Blog_Project.Controllers
                     comments.Add(commentViewModel);
                 }
 
-                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-                var liked = _context.Likes.Where(l => l.Post == post).Where(l => l.UserId == currentUser.Id).FirstOrDefault();
-                bool isLiked = false;
-
-                if (liked != null)
-                {
-                    isLiked = true;
-                }
-
                 postViewModel = new PostViewModel
                 {
                     Id = post.Id,
@@ -153,10 +144,27 @@ namespace Blog_Project.Controllers
                     Category = post.Category,
                     DateCreated = post.DateCreated,
                     Likes = post.Likes,
-                    mainComments = comments,
-                    IsLiked = isLiked
+                    mainComments = comments
+                    
                 };
+
+                // Adding like to Post if IsAuthenticated
+                if (User.Identity.IsAuthenticated)
+                {
+                    var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                    var liked = _context.Likes.Where(l => l.Post == post).Where(l => l.UserId == currentUser.Id).FirstOrDefault();
+                    bool isLiked = false;
+
+                    if (liked != null)
+                    {
+                        isLiked = true;
+                    }
+                    postViewModel.IsLiked = isLiked;
+                }
+
+
             }
+            // Adding First and Last Name to Post
             if (post.UserId != null)
             {
                 var currentUser = await _userManager.GetUserAsync(HttpContext.User);
@@ -344,18 +352,19 @@ namespace Blog_Project.Controllers
 
         // IMPLEMENT Olivier
         // -1 => error, 0 => liked, 1 => unliked, 
-        [HttpPost, ActionName("toggleLike")]
+        [Authorize]
+        [ActionName("toggleLike")]
         public async Task<IActionResult> toggleLikeAsync(int postId)
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-            var Liked =  _context.Likes.Where(l => l.Post.Id == postId).Where(l => l.UserId == currentUser.Id).Single();
+            var Liked = _context.Likes.Where(l => l.Post.Id == postId).Where(l => l.UserId == currentUser.Id).FirstOrDefault();
 
             if (Liked != null)
             {
                 // unlike
                 _context.Likes.Remove(Liked);
                 _context.SaveChanges();
-                return RedirectToAction("Details","Posts",postId);
+                return RedirectToAction("Details","Posts", new { id = postId });
             }
             else
             {
@@ -369,7 +378,7 @@ namespace Blog_Project.Controllers
 
                 _context.Likes.Add(newLike);
                 _context.SaveChanges();
-                return RedirectToAction("Details", "Posts", postId);
+                return RedirectToAction("Details", "Posts", new { id = postId });
             }
         }
 
