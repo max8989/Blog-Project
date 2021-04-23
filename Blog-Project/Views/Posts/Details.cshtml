@@ -1,5 +1,4 @@
 ﻿@model PostViewModel
-
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -81,13 +80,15 @@
                     <div class="card-footer d-flex justify-content-between align-items-center">
                         <small class="text-muted">@comment.DateCreated.ToShortDateString()</small>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Reply</button>
+                          
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+                            
                         </div>
                     </div>
                 </div>
             </div>
 
-            @foreach (var subComment in comment.SubComments)
+            @*@foreach (var subComment in comment.SubComments)
             {
                 <div class="Comment" style="margin-left: 8em;margin-bottom: 2em;">
                     <div class="card">
@@ -100,7 +101,7 @@
                         </div>
                     </div>
                 </div>
-            }
+            }*@
         }
         <hr />
     </div>
