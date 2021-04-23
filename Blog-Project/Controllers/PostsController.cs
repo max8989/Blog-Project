@@ -111,7 +111,7 @@ namespace Blog_Project.Controllers
                     CategoryId = post.CategoryId,
                     Category = post.Category,
                     DateCreated = post.DateCreated,
-                    Likes = post.Likes,
+                    Likes = post.Likes,  
                     mainComments = post.mainComments
                 };
             }
@@ -127,6 +127,9 @@ namespace Blog_Project.Controllers
                     postViewModel.LastName = lastName;
                 }
             }
+
+
+
             return View(postViewModel);
         }
 
@@ -313,17 +316,29 @@ namespace Blog_Project.Controllers
             }
         }
 
+
         // IMPLEMENT Justin
         [Authorize]
-        public IActionResult addComment(int postId, string commentBody)
+        public async Task<string> addComment(int postId, string? commentBody)
         {
+            if (commentBody == null)
+            {
+                return "Error";
+            }    
+            if(postId <= 0)
+            {
+                return "Error";
+            }
+            if(commentBody.Length < 1)
+            {
+                return "CommentLenghtToLow";
+            }
             var comment = new
             {
                 postId = postId,
                 commentBody = commentBody
             };
-
-            if (ModelState.IsValid)
+            try
             {
                 var Newcomment = new MainComment
                 {
@@ -332,13 +347,15 @@ namespace Blog_Project.Controllers
                     DateCreated = DateTime.Now,
                     PostId = postId
                 };
-
                 _context.Add(Newcomment);
-                _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var created = await _context.SaveChangesAsync();
+                return "Success";
             }
-            return (Json(comment));
-            //return RedirectToAction("Details", postId);
+            catch (Exception)
+            {
+                return "Error";
+            }
+            
         }
 
         //public async Task<Comment[]> GetAllCommentAsync(bool includeMainComments = false)
