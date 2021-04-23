@@ -41,13 +41,19 @@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <footer class="border-top footer text-muted">
+                    <div class="container">
+                        &copy; 2021 - My Blog - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </div>
+                </footer>
+            </div>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - Blog_Project - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    
 
     @*<footer class="blog-footer">
         &copy; 2021 - Blog_Project - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
