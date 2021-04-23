@@ -51,7 +51,7 @@ namespace Blog_Project.Controllers
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             if (await _userManager.IsInRoleAsync(currentUser, "Admin"))
             {
-                var allPosts = _context.Posts
+                var allPosts = await _context.Posts
                 .Include(c => c.Category)
                 .Include(l => l.Likes)
                 .Include(cc => cc.mainComments)
@@ -422,7 +422,7 @@ namespace Blog_Project.Controllers
                 var currentUser = await _userManager.GetUserAsync(HttpContext.User);
                 var comment = await _context.MainComments.FindAsync(commentId);
 
-                if(comment.UserId == currentUser.Id)
+                if(comment.UserId == currentUser.Id || await _userManager.IsInRoleAsync(currentUser, "Admin"))
                 {
                     _context.MainComments.Remove(comment);
                     await _context.SaveChangesAsync();
@@ -435,6 +435,13 @@ namespace Blog_Project.Controllers
             }
             
             return RedirectToAction("Details", "Posts", new {id = postId });
+        }
+
+        public async Task<bool> likePost(int postId)
+        {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            
+            return false;
         }
 
         //public async Task<Comment[]> GetAllCommentAsync(bool includeMainComments = false)
