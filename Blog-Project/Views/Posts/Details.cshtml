@@ -4,27 +4,29 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
         <h1>@Model.Title</h1>
         <h5>@Model.Category.CategoryName</h5>
     </div>
-</div>
-<div class="col-lg-8">
-    <hr />
-    <div>
+    <div class="col-lg-2"></div>
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+        <hr />
         <div>
             <div>
-                @if (Model.FirstName != null && Model.LastName != null)
-                {
-                    <h5>By: @Model.FirstName @Model.LastName</h5>
-                }
-                else
-                {
-            <h5 class="card-title"> By: An Anonymous User</h5>
-                }
                 <div>
-                    <small class="text-muted">@Model.DateCreated.ToShortDateString()</small>
-                </div>
+                    @if (Model.FirstName != null && Model.LastName != null)
+                    {
+                        <h5>By: @Model.FirstName @Model.LastName</h5>
+                    }
+                    else
+                    {
+                        <h5 class="card-title"> By: An Anonymous User</h5>
+                    }
+                    <div>
+                        <small class="text-muted">@Model.DateCreated.ToShortDateString()</small>
+                    </div>
 
                     @if (Model.Image != null)
                     {
@@ -61,66 +63,68 @@
                 <hr />
             }
 
-        @foreach (var comment in Model.mainComments)
-        {
-            <div class="Comment" style="margin-left: 4em;margin-bottom: 2em;">
-                <div class="card">
-                    <div class="card-body">
-                        @if (comment.FirstName != null && comment.LastName != null)
-                        {
-                        <h5 class="card-title"> By: @comment.FirstName @comment.LastName</h5>
-                        }
-                        else
-                        {
-                    <h5 class="card-title"> By: An Anonymous User</h5>
-                        }
-
-                        <p class="card-text">@comment.Message</p>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between align-items-center">
-                        <small class="text-muted">@comment.DateCreated.ToShortDateString()</small>
-                        <div class="btn-group">
-                          
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            @*@foreach (var subComment in comment.SubComments)
+            @foreach (var comment in Model.mainComments)
             {
-                <div class="Comment" style="margin-left: 8em;margin-bottom: 2em;">
+                <div class="Comment" style="margin-left: 4em;margin-bottom: 2em;">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title"> By: An Anonymous User</h5>
-                            <p class="card-text">@subComment.Message</p>
+                            @if (comment.FirstName != null && comment.LastName != null)
+                            {
+                                <h5 class="card-title"> By: @comment.FirstName @comment.LastName</h5>
+                            }
+                            else
+                            {
+                                <h5 class="card-title"> By: An Anonymous User</h5>
+                            }
+
+                            <p class="card-text">@comment.Message</p>
                         </div>
                         <div class="card-footer d-flex justify-content-between align-items-center">
-                            <small class="text-muted">@subComment.DateCreated.ToShortDateString()</small>
+                            <small class="text-muted">@comment.DateCreated.ToShortDateString()</small>
+                            <div class="btn-group">
+
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+
+                            </div>
                         </div>
                     </div>
                 </div>
-            }*@
-        }
-        <hr />
-    </div>
-    <div class="card my-4">
-        <h5 class="card-header">Leave a Comment:</h5>
-        <div class="card-body">
-            <form>
-                <div class="form-group">
-            <textarea class="form-control" rows="3" id="TextArea"  ></textarea>
-        </div>
 
-        <button onclick="location.href='@Url.Action("addComment", "Posts", new { postId = Model.Id, commentBody =  })'"
-                type="button" class="btn btn-primary" style="margin-top:1em">
-            Submit
-        </button>
-            </form>
+                @*@foreach (var subComment in comment.SubComments)
+                    {
+                        <div class="Comment" style="margin-left: 8em;margin-bottom: 2em;">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title"> By: An Anonymous User</h5>
+                                    <p class="card-text">@subComment.Message</p>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">@subComment.DateCreated.ToShortDateString()</small>
+                                </div>
+                            </div>
+                        </div>
+                    }*@
+            }
+            <hr />
+        </div>
+        <div class="card my-4">
+            <h5 class="card-header">Leave a Comment:</h5>
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="3" id="CommentTextArea"></textarea>
+                    </div>
+
+                    <button type="button" class="btn btn-primary addComment" style="margin-top:1em">
+                        Submit
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
+    <div class="col-lg-2"></div>
 </div>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>

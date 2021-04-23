@@ -338,7 +338,7 @@ namespace Blog_Project.Controllers
         }
 
 
-        // IMPLEMENT Justin
+        // Adding Comment
         [Authorize]
         public async Task<string> addComment(int postId, string? commentBody)
         {
@@ -371,13 +371,11 @@ namespace Blog_Project.Controllers
                 _context.Add(Newcomment);
                 var created = await _context.SaveChangesAsync();
                 return "Success";
-            }
-            catch (Exception)
+            } 
+            catch(Exception)
             {
                 return "Error";
             }
-            return RedirectToAction("Details", postId);
-            
         }
 
         //public async Task<Comment[]> GetAllCommentAsync(bool includeMainComments = false)
