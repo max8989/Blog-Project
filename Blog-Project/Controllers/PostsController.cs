@@ -101,6 +101,27 @@ namespace Blog_Project.Controllers
 
             if(post != null)
             {
+                List<CommentViewModel> comments = new List<CommentViewModel>();
+                foreach (var comment in post.mainComments)
+                {
+                    var firstName = _context.Users.Find(comment.UserId)?.FirstName;
+                    var lastName = _context.Users.Find(comment.UserId)?.LastName;
+                    var commentViewModel = new CommentViewModel
+                    {
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Id = comment.Id,
+                        Message = comment.Message,
+                        UserId = comment.UserId,
+                        DateCreated = comment.DateCreated,
+                        PostId = comment.PostId,
+                        Post = comment.Post,
+                        SubComments = comment.SubComments
+                    };
+
+                    comments.Add(commentViewModel);
+                }
+
                 postViewModel = new PostViewModel
                 {
                     Id = post.Id,
@@ -112,7 +133,7 @@ namespace Blog_Project.Controllers
                     Category = post.Category,
                     DateCreated = post.DateCreated,
                     Likes = post.Likes,
-                    mainComments = post.mainComments
+                    mainComments = comments
                 };
             }
             if (post.UserId != null)
@@ -127,6 +148,9 @@ namespace Blog_Project.Controllers
                     postViewModel.LastName = lastName;
                 }
             }
+
+
+
             return View(postViewModel);
         }
 
@@ -299,38 +323,58 @@ namespace Blog_Project.Controllers
 
         // IMPLEMENT Olivier
         // -1 => error, 0 => liked, 1 => unliked, 
-        public async Task<int> toggleLikeAsync(string userId, Post post, bool isLiked)
+        public async Task<int> toggleLikeAsync(Post post)
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-            userId = currentUser.Id;
-            var like = new
-            {
-                post = post,
-                userId = userId,
-                isLiked = isLiked
-            };
+            var Liked =  _context.Likes.Where(l => l.Post == post).Where(l => l.UserId == currentUser.Id).Single();
 
-            if (isLiked)
+            if (Liked != null)
             {
-                return 0;
+                // unlike
+                _context.Likes.Remove(Liked);
+                _context.SaveChanges();
+                return 1;
             }
             else
             {
-                return 1;
+                // like
+                var newLike = new Like
+                {
+                    Post = post, 
+                    UserId = currentUser.Id,
+                    User = currentUser
+                };
+
+                _context.Likes.Add(newLike);
+                _context.SaveChanges();
+                return 0;
             }
+
         }
 
-        // IMPLEMENT Justin
+
+        // Adding Comment
         [Authorize]
-        public IActionResult addComment(int postId, string commentBody)
+        public async Task<string> addComment(int postId, string? commentBody)
         {
+            if (commentBody == null)
+            {
+                return "Error";
+            }    
+            if(postId <= 0)
+            {
+                return "Error";
+            }
+            if(commentBody.Length < 1)
+            {
+                return "CommentLenghtToLow";
+            }
             var comment = new
             {
                 postId = postId,
                 commentBody = commentBody
             };
-
-            if (ModelState.IsValid)
+            try
             {
                 var Newcomment = new MainComment
                 {
@@ -339,13 +383,37 @@ namespace Blog_Project.Controllers
                     DateCreated = DateTime.Now,
                     PostId = postId
                 };
-
                 _context.Add(Newcomment);
-                _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var created = await _context.SaveChangesAsync();
+                return "Success";
+            } 
+            catch(Exception)
+            {
+                return "Error";
             }
-            return (Json(comment));
-            //return RedirectToAction("Details", postId);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> deleteComment(int postId, int commentId)
+        {
+            try
+            {
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                var comment = await _context.MainComments.FindAsync(commentId);
+
+                if(comment.UserId == currentUser.Id)
+                {
+                    _context.MainComments.Remove(comment);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+            return RedirectToAction("Details", "Posts", new {id = postId });
         }
 
         //public async Task<Comment[]> GetAllCommentAsync(bool includeMainComments = false)

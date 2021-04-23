@@ -1,114 +1,176 @@
-﻿@model PostViewModel
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
+@model PostViewModel
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
         <h1>@Model.Title</h1>
         <h5>@Model.Category.CategoryName</h5>
     </div>
-</div>
-<div class="col-lg-8">
-    <hr />
-    <div>
+    <div class="col-lg-2"></div>
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+        <hr />
         <div>
             <div>
-                    @if(Model.FirstName != null && Model.LastName != null)
+                <div>
+                    @if (Model.FirstName != null && Model.LastName != null)
                     {
-                        <h5>Par: @Model.FirstName @Model.LastName</h5>
+                        <h5>By: @Model.FirstName @Model.LastName</h5>
                     }
-                <div>
-                    <small class="text-muted">@Model.DateCreated.ToShortDateString()</small>
-                </div>
+                    else
+                    {
+                        <h5 class="card-title"> By: An Anonymous User</h5>
+                    }
+                    <div>
+                        <small class="text-muted">@Model.DateCreated.ToShortDateString()</small>
+                    </div>
 
-                @if (Model.Image != null)
-                {
+                    @if (Model.Image != null)
+                    {
+                        <hr />
+                        <img src="data:image/jpeg;base64,@Model.Image" class="img-fluid rounded" />
+                    }
                     <hr />
-                    <img src="data:image/jpeg;base64,@Model.Image" class="img-fluid rounded" />
-                }
-                <hr />
 
-                <div>
-                    @Html.Raw(Model.Body)
+                    <div>
+                        @Html.Raw(Model.Body)
+                    </div>
                 </div>
-            </div>
-            <div class="card" style="margin-top:1em">
-                <div class="card-footer d-flex justify-content-between align-items-center">
-                    <div class="Post-Stat">
-                        Views:
-                    </div>
-                    <div class="Post-Stat">
-                        Likes: @Model.Likes.Count()
-                    </div>
-                    <div class="Post-Stat">
-                        Comments: @Model.mainComments.Count()
-                    </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-                    </svg>
-                </div>
-            </div>
-
-        </div>
-
-        @if (Model.mainComments.Count() != 0)
-        {
-            <hr />
-        }
-
-        @foreach (var comment in Model.mainComments)
-        {
-            <div class="Comment" style="margin-left: 4em;margin-bottom: 2em;">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title"> Par: Justin Belanger</h5>
-                        <p class="card-text">@comment.Message</p>
-                    </div>
+                <div class="card" style="margin-top:1em">
                     <div class="card-footer d-flex justify-content-between align-items-center">
-                        <small class="text-muted">@comment.DateCreated.ToShortDateString()</small>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Reply</button>
+                        <div class="Post-Stat">
+                            Views:
                         </div>
+                        <div class="Post-Stat">
+                            Likes: @Model.Likes.Count()
+                        </div>
+                        <div class="Post-Stat">
+                            Comments: @Model.mainComments.Count()
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                        </svg>
                     </div>
                 </div>
+
             </div>
 
-            @foreach (var subComment in comment.SubComments)
+            @if (Model.mainComments.Count() != 0)
             {
-                <div class="Comment" style="margin-left: 8em;margin-bottom: 2em;">
+                <hr />
+            }
+
+            @foreach (var comment in Model.mainComments)
+            {
+                <div class="Comment" style="margin-left: 4em;margin-bottom: 2em;">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title"> Par: Justin Belanger</h5>
-                            <p class="card-text">@subComment.Message</p>
+                            @if (comment.FirstName != null && comment.LastName != null)
+                            {
+                                <h5 class="card-title"> By: @comment.FirstName @comment.LastName</h5>
+                            }
+                            else
+                            {
+                                <h5 class="card-title"> By: An Anonymous User</h5>
+                            }
+
+                            <p class="card-text">@comment.Message</p>
                         </div>
                         <div class="card-footer d-flex justify-content-between align-items-center">
-                            <small class="text-muted">@subComment.DateCreated.ToShortDateString()</small>
+                            <small class="text-muted">@comment.DateCreated.ToShortDateString()</small>
+                            <div class="btn-group">
+
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    var CurrentUserId = UserManager.Users.FirstOrDefault(u => u.UserName == User.Identity.Name)?.Id;
+
+                                    if (comment.UserId == CurrentUserId)
+                                    {
+                                        <button type="button" onclick="location.href='@Url.Action( "deleteComment","Posts", new {  postId = Model.Id, commentId = comment.Id })'"
+                                                class="btn btn-sm btn-outline-secondary">
+                                            Delete
+                                        </button>
+                                    }
+                                }
+
+
+                            </div>
                         </div>
                     </div>
                 </div>
-            }
-        }
-        <hr />
-    </div>
-    <div class="card my-4">
-        <h5 class="card-header">Leave a Comment:</h5>
-        <div class="card-body">
-            <form>
-                <div class="form-group">
-            <textarea class="form-control" rows="3" id="TextArea"  ></textarea>
-        </div>
 
-        <button onclick="location.href='@Url.Action("addComment", "Posts", new { postId = Model.Id, commentBody =  })'"
-                type="button" class="btn btn-primary" style="margin-top:1em">
-            Submit
-        </button>
-            </form>
+                @*@foreach (var subComment in comment.SubComments)
+                    {
+                        <div class="Comment" style="margin-left: 8em;margin-bottom: 2em;">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title"> By: An Anonymous User</h5>
+                                    <p class="card-text">@subComment.Message</p>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">@subComment.DateCreated.ToShortDateString()</small>
+                                </div>
+                            </div>
+                        </div>
+                    }*@
+            }
+            <hr />
+        </div>
+        <div class="card my-4">
+            <h5 class="card-header">Leave a Comment:</h5>
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="3" id="CommentTextArea"></textarea>
+                    </div>
+
+                    <button type="button" class="btn btn-primary addComment" style="margin-top:1em">
+                        Submit
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
+    <div class="col-lg-2"></div>
 </div>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+@*<input type="hidden" id="UserId" value="@Model.UserId" />*@
+<input type="hidden" id="PostId" value="@Model.Id" />
+@section scripts{
+    <script type="text/javascript">
+        $('.addComment').on('click', function () {
+            var commentBody = $("#CommentTextArea").val();
+            var postId = $("#PostId").val();
+            if (commentBody.length > 1) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Posts/addComment",
+                    data: { postId: postId, commentBody: commentBody },
+                    success: function (data) {
+                        if (data == "Error") {
+                            alert("An Error Occured");
+                        }
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Please Login First");
+                    }
+                })
+            }
+            else {
+                alert("Please add a comment");
+            }
+        });
+    </script>
+}
