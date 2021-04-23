@@ -37,6 +37,8 @@ namespace Blog_Project.ViewModels
         public List<Like> Likes { get; set; }
 
         public List<CommentViewModel> mainComments { get; set; }
+
+        public bool IsLiked { get; set; }
         //public IEnumerable<Post> Posts { get; set; }
 
     }

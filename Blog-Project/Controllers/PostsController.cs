@@ -122,6 +122,15 @@ namespace Blog_Project.Controllers
                     comments.Add(commentViewModel);
                 }
 
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                var liked = _context.Likes.Where(l => l.Post == post).Where(l => l.UserId == currentUser.Id).Single();
+                bool isLiked = false;
+
+                if (liked != null)
+                {
+                    isLiked = true;
+                }
+
                 postViewModel = new PostViewModel
                 {
                     Id = post.Id,
@@ -133,7 +142,8 @@ namespace Blog_Project.Controllers
                     Category = post.Category,
                     DateCreated = post.DateCreated,
                     Likes = post.Likes,
-                    mainComments = comments
+                    mainComments = comments,
+                    IsLiked = isLiked
                 };
             }
             if (post.UserId != null)
@@ -234,8 +244,8 @@ namespace Blog_Project.Controllers
                 UserId = post.UserId,
                 Image = post.Image,
                 Categories = new SelectList(_categoryRepository.AllCategories, "CategoryId", "CategoryName")
-        };
-
+            };
+          
 
 
             //ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", post.CategoryId);
@@ -349,7 +359,6 @@ namespace Blog_Project.Controllers
                 _context.SaveChanges();
                 return 0;
             }
-
         }
 
 
