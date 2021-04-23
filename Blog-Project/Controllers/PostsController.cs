@@ -302,6 +302,13 @@ namespace Blog_Project.Controllers
         public async Task<int> toggleLikeAsync(string userId, Post post, bool isLiked)
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            userId = currentUser.Id;
+            var like = new
+            {
+                post = post,
+                userId = userId,
+                isLiked = isLiked
+            };
 
             if (isLiked)
             {
