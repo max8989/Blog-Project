@@ -49,16 +49,27 @@ namespace Blog_Project.Controllers
         public async Task<IActionResult> Index()
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-            //if admin show all posts
-            // else show for current User
-            var applicationDbContext = _context.Posts
+            if (await _userManager.IsInRoleAsync(currentUser, "Admin"))
+            {
+                var allPosts = _context.Posts
                 .Include(c => c.Category)
                 .Include(l => l.Likes)
                 .Include(cc => cc.mainComments)
                 .ThenInclude(ccc => ccc.SubComments)
-                .Where(u => u.UserId == currentUser.Id);
-
-            return View(await applicationDbContext.ToListAsync());
+                .ToListAsync();
+                return View(allPosts);
+            }
+            else
+            {
+                var postsByUser = await _context.Posts
+                .Include(c => c.Category)
+                .Include(l => l.Likes)
+                .Include(cc => cc.mainComments)
+                .ThenInclude(ccc => ccc.SubComments)
+                .Where(u => u.UserId == currentUser.Id)
+                .ToListAsync();
+                return View(postsByUser);
+            }
         }
 
         // Danik / Marc
