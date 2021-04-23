@@ -246,29 +246,30 @@ namespace Blog_Project.Controllers
             {
                 return NotFound();
             }
-
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             var post = await _context.Posts.FindAsync(id);
             if (post == null)
             {
                 return NotFound();
             }
 
-            var postViewModel = new PostViewModel
+            if (currentUser.Id == post.UserId || await _userManager.IsInRoleAsync(currentUser, "Admin"))
             {
-                Id = post.Id,
-                Title = post.Title,
-                Description = post.Description,
-                Body = post.Body,
-                CategoryId = post.CategoryId,
-                UserId = post.UserId,
-                Image = post.Image,
-                Categories = new SelectList(_categoryRepository.AllCategories, "CategoryId", "CategoryName")
-            };
-          
+                var postViewModel = new PostViewModel
+                {
+                    Id = post.Id,
+                    Title = post.Title,
+                    Description = post.Description,
+                    Body = post.Body,
+                    CategoryId = post.CategoryId,
+                    UserId = post.UserId,
+                    Image = post.Image,
+                    Categories = new SelectList(_categoryRepository.AllCategories, "CategoryId", "CategoryName")
+                };
 
-
-            //ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", post.CategoryId);
-            return View(postViewModel);
+                return View(postViewModel);
+            }
+            return NotFound();
         }
 
         // POST: Posts/Edit/5
@@ -282,8 +283,13 @@ namespace Blog_Project.Controllers
             {
                 try
                 {
+                    var currentUser = await _userManager.GetUserAsync(HttpContext.User);
                     var post = await _context.Posts.FindAsync(postViewModel.Id);
                     if (post == null)
+                    {
+                        return NotFound();
+                    }
+                    if (currentUser.Id != post.UserId || !await _userManager.IsInRoleAsync(currentUser, "Admin"))
                     {
                         return NotFound();
                     }
@@ -323,6 +329,8 @@ namespace Blog_Project.Controllers
                 return NotFound();
             }
 
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+
             var post = await _context.Posts
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -330,19 +338,31 @@ namespace Blog_Project.Controllers
             {
                 return NotFound();
             }
+            if(currentUser.Id == post.UserId || await _userManager.IsInRoleAsync(currentUser, "Admin"))
+            {
+                return View(post);
+            }
 
-            return View(post);
+            return NotFound();
         }
 
         // POST: Posts/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var post = await _context.Posts.FindAsync(id);
-            _context.Posts.Remove(post);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (currentUser.Id == post.UserId || await _userManager.IsInRoleAsync(currentUser, "Admin"))
+            {
+                _context.Posts.Remove(post);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return NotFound();
         }
 
         private bool PostExists(int id)
