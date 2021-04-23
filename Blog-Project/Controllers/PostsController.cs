@@ -123,7 +123,7 @@ namespace Blog_Project.Controllers
                 }
 
                 var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-                var liked = _context.Likes.Where(l => l.Post == post).Where(l => l.UserId == currentUser.Id).Single();
+                var liked = _context.Likes.Where(l => l.Post == post).Where(l => l.UserId == currentUser.Id).FirstOrDefault();
                 bool isLiked = false;
 
                 if (liked != null)
