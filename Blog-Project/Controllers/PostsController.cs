@@ -344,31 +344,32 @@ namespace Blog_Project.Controllers
 
         // IMPLEMENT Olivier
         // -1 => error, 0 => liked, 1 => unliked, 
-        public async Task<int> toggleLikeAsync(Post post)
+        [HttpPost, ActionName("toggleLike")]
+        public async Task<IActionResult> toggleLikeAsync(int postId)
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-            var Liked =  _context.Likes.Where(l => l.Post == post).Where(l => l.UserId == currentUser.Id).Single();
+            var Liked =  _context.Likes.Where(l => l.Post.Id == postId).Where(l => l.UserId == currentUser.Id).Single();
 
             if (Liked != null)
             {
                 // unlike
                 _context.Likes.Remove(Liked);
                 _context.SaveChanges();
-                return 1;
+                return RedirectToAction("Details","Posts",postId);
             }
             else
             {
                 // like
                 var newLike = new Like
                 {
-                    Post = post, 
+                    Post = _context.Posts.Where(p => p.Id == postId).FirstOrDefault(), 
                     UserId = currentUser.Id,
                     User = currentUser
                 };
 
                 _context.Likes.Add(newLike);
                 _context.SaveChanges();
-                return 0;
+                return RedirectToAction("Details", "Posts", postId);
             }
         }
 
