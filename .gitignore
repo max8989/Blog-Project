@@ -365,6 +365,4 @@ FodyWeavers.xsd
 # User custom settings
 obj/
 bin/
-Blog-Post.db
-Blog-Post.db-shm
-Blog-Post.db-wal
+
